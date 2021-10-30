@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "ASkRsHF0an/MKfNVaTqPeUsdIkRrc8UdhKiKH5Yae/BogHznJQb7iL59Vk+E/PX2d/jTji4ecc8lHI/nUlKHCQ==",
+  "dgSpecHash": "rfUM5lxH6jdkV1H1rdkB6aSuqYiF4CyRncb/8jhajTZ3tqxz0kmLrwster9AEKLU5cBf3GZj+xHy0r7ROmuUyg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\USER\\OneDrive\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj",
+  "projectFilePath": "F:\\hcmus\\WINDOWS\\DA1\\lan1\\ProjectBatchName\\ProjectBatchName.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\USER\\.nuget\\packages\\fody\\6.5.1\\fody.6.5.1.nupkg.sha512",
-    "C:\\Users\\USER\\.nuget\\packages\\propertychanged.fody\\3.4.0\\propertychanged.fody.3.4.0.nupkg.sha512"
+    "C:\\Users\\asus\\.nuget\\packages\\dragablz\\0.0.3.223\\dragablz.0.0.3.223.nupkg.sha512",
+    "C:\\Users\\asus\\.nuget\\packages\\fody\\6.5.1\\fody.6.5.1.nupkg.sha512",
+    "C:\\Users\\asus\\.nuget\\packages\\materialdesigncolors\\2.0.3\\materialdesigncolors.2.0.3.nupkg.sha512",
+    "C:\\Users\\asus\\.nuget\\packages\\materialdesignthemes\\4.2.1\\materialdesignthemes.4.2.1.nupkg.sha512",
+    "C:\\Users\\asus\\.nuget\\packages\\propertychanged.fody\\3.4.0\\propertychanged.fody.3.4.0.nupkg.sha512"
   ],
   "logs": []
 }

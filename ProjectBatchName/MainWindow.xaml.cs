@@ -24,5 +24,10 @@ namespace ProjectBatchName
         {
             InitializeComponent();
         }
+
+        private void btnExit(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
     }
 }

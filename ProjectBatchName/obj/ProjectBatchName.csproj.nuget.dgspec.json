@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\OneDrive\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj": {}
+    "F:\\hcmus\\WINDOWS\\DA1\\lan1\\ProjectBatchName\\ProjectBatchName.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\OneDrive\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj": {
+    "F:\\hcmus\\WINDOWS\\DA1\\lan1\\ProjectBatchName\\ProjectBatchName.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\OneDrive\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj",
+        "projectUniqueName": "F:\\hcmus\\WINDOWS\\DA1\\lan1\\ProjectBatchName\\ProjectBatchName.csproj",
         "projectName": "ProjectBatchName",
-        "projectPath": "C:\\Users\\USER\\OneDrive\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj",
-        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\OneDrive\\Documents\\win\\BatchName\\ProjectBatchName\\obj\\",
+        "projectPath": "F:\\hcmus\\WINDOWS\\DA1\\lan1\\ProjectBatchName\\ProjectBatchName.csproj",
+        "packagesPath": "C:\\Users\\asus\\.nuget\\packages\\",
+        "outputPath": "F:\\hcmus\\WINDOWS\\DA1\\lan1\\ProjectBatchName\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,6 +45,14 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "Dragablz": {
+              "target": "Package",
+              "version": "[0.0.3.223, )"
+            },
+            "MaterialDesignThemes": {
+              "target": "Package",
+              "version": "[4.2.1, )"
+            },
             "PropertyChanged.Fody": {
               "target": "Package",
               "version": "[3.4.0, )"
