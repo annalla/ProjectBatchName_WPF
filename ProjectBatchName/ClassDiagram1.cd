@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ProjectBatchName.Rule">
+    <Position X="1" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Rule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.CreateRule" Collapsed="true">
+    <Position X="0.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAEAAAAAAAAAAAAAAAAAAACAAAAAAAgAAAAg=</HashCode>
+      <FileName>CreateRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.Arguments" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Arguments.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.Argument_1" Collapsed="true">
+    <Position X="3.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Argument_1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.Argument_3">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Argument_3.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.ChangeExtension" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>ChangeExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.AddCounter">
+    <Position X="2.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>AddCounter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.RemoveAllSpace">
+    <Position X="2.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>RemoveAllSpace.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.AddSuffix">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>AddSuffix.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.AddPrefix">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>AddPrefix.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.Replace">
+    <Position X="4.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Replace.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.Lowercase">
+    <Position X="2.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Lowercase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.PascalCase">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>PascalCase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectBatchName.Argument_2">
+    <Position X="7.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Argument_2.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
