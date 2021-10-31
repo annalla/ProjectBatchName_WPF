@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace ProjectBatchName
@@ -10,7 +11,9 @@ namespace ProjectBatchName
         public AddSuffix() { }
         override public String Rename(String oldName)
         {
-            throw new NotImplementedException();
+            string str = Path.GetFileNameWithoutExtension(oldName);
+            str += suffix;
+            return str + Path.GetExtension(oldName);
         }
         override public Rule Create(Arguments args)
         {

@@ -37,29 +37,29 @@
         </DockPanel>
 
         <StackPanel Height="50" Background="#bee9e8" Orientation="Horizontal"  HorizontalAlignment="Stretch">
-            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+            <Button  Background="{x:Null}" BorderBrush="{x:Null}" Margin="10 5 5 5">
                 <materialDesign:PackIcon Kind="ArrowLeft" Foreground="Black"/>
             </Button>
-            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+            <Button  Background="{x:Null}" BorderBrush="{x:Null}" Margin="5">
                 <materialDesign:PackIcon Kind="ArrowRight" Foreground="Black"/>
             </Button>
-            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+            <Button  Background="{x:Null}" BorderBrush="{x:Null}" Margin="5">
                 <materialDesign:PackIcon Kind="ArrowUp" Foreground="Black"/>
             </Button>
-            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+            <Button  Background="{x:Null}" BorderBrush="{x:Null}"  Margin="5">
                 <materialDesign:PackIcon Kind="Home" Foreground="Black"/>
             </Button>
-            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+            <Button  Background="{x:Null}" BorderBrush="{x:Null}"  Margin="5">
                 <materialDesign:PackIcon Kind="ArrowUUpLeft" Foreground="Black"/>
             </Button>
-            <TextBox Width="900" Background="White" Margin="6" BorderBrush="Black"></TextBox>
-            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+            <TextBox Width="850" Background="White" Margin="6" BorderBrush="Black"></TextBox>
+            <Button  Background="{x:Null}" BorderBrush="{x:Null}"  Margin="5">
                 <materialDesign:PackIcon Kind="FileUpload" Foreground="Black"/>
             </Button>
-            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+            <Button  Background="{x:Null}" BorderBrush="{x:Null}"  Margin="5">
                 <materialDesign:PackIcon Kind="FolderPlus" Foreground="Black"/>
             </Button>
-            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+            <Button  Background="{x:Null}" BorderBrush="{x:Null}"  Margin="5">
                 <materialDesign:PackIcon Kind="HammerWrench" Foreground="Black"/>
             </Button>
         </StackPanel>
@@ -161,28 +161,44 @@
                     <GroupBox.Header>
                         Presets
                     </GroupBox.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Button  Background="{x:Null}" BorderBrush="{x:Null}">
-                            <materialDesign:PackIcon Kind="ContentSaveCheck" Foreground="Black"/>
-                        </Button>
-                        <Button  Background="{x:Null}" BorderBrush="{x:Null}">
-                            <materialDesign:PackIcon Kind="DeleteForever" Foreground="Black"/>
-                        </Button>
-                        <ComboBox Width="300">
-
-                        </ComboBox>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+                                <materialDesign:PackIcon Kind="ContentSaveCheck" Foreground="Black"/>
+                            </Button>
+                            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+                                <materialDesign:PackIcon Kind="DeleteForever" Foreground="Black"/>
+                            </Button>
+                            <ComboBox Width="300">
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
+                            <Label FontWeight="Bold" FontStyle="Normal" >
+                                Custom Name:
+                            </Label>
+                            <TextBox Width="247">
+                                
+                            </TextBox>
+                        </StackPanel>
                     </StackPanel>
+                    
                 </GroupBox>
 
                 <Label FontWeight="Bold" Margin="0 0 0 0">Rename:</Label>
-                <Border BorderThickness="2" BorderBrush="Black" Width="360" Height="130" Margin="0 0 0 0" Background="#1b4965">
+                <Border BorderThickness="2" BorderBrush="Black" Width="360" Height="106" Margin="0 0 0 0" Background="#1b4965">
                     <StackPanel Margin="5">
-                        <RadioButton Content="Files only" Margin="3" Foreground="White"/>
-                        <RadioButton Content="Folders only"  Margin="3" Foreground="White"/>
-                        <RadioButton Content="Files and Folders"  Margin="3" Foreground="White"/>
-                        <RadioButton Content="Select items only" IsChecked="True"  Margin="3" Foreground="White"/>
-                        <StackPanel Orientation="Horizontal" Margin="70 0 0 0">
-                            <Button Background="AliceBlue" Width="80" Height="28" FontWeight="Bold" Margin="3 3 40 3">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="40 0 0 0">
+                                <RadioButton Content="Files only" Margin="5" Foreground="White"/>
+                                <RadioButton Content="Folders only"  Margin="5" Foreground="White"/>
+                            </StackPanel>
+                            <StackPanel Margin="50 0 0 0">
+                                <RadioButton Content="Files and Folders"  Margin="5" Foreground="White"/>
+                                <RadioButton Content="Select items only" IsChecked="True"  Margin="5" Foreground="White"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="70 10 0 0">
+                            <Button Background="AliceBlue" Width="80" Height="28" FontWeight="Bold" Margin="3 3 30 3">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="5"/>
@@ -190,13 +206,12 @@
                                 </Button.Resources>
                                 Rename
                             </Button>
-                            <Button Background="AliceBlue" Width="80" Height="28" FontWeight="Bold" Margin="3">
+                            <Button Background="AliceBlue" Width="80" Height="28" FontWeight="Bold" Content="Undo">
                                 <Button.Resources>
-                                    <Style TargetType="Border">
+                                    <Style TargetType="{x:Type Border}">
                                         <Setter Property="CornerRadius" Value="5"/>
                                     </Style>
                                 </Button.Resources>
-                                Undo
                             </Button>
                         </StackPanel>
                     </StackPanel>
