@@ -80,7 +80,7 @@
             </StackPanel>
             <StackPanel Margin="5">
                 <Border Background="AliceBlue" BorderThickness="1" BorderBrush="Black" Width="540" Height="20" >
-                    <TextBlock Text="Review"  HorizontalAlignment="Center"  VerticalAlignment="Center" FontWeight="Bold" FontSize="14">
+                    <TextBlock Text="Preview "  HorizontalAlignment="Center"  VerticalAlignment="Center" FontWeight="Bold" FontSize="14">
 
                     </TextBlock>
                 </Border>
@@ -95,76 +95,112 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Background="#bee9e8" Height="222">
             <StackPanel Orientation="Vertical" Width="360" Margin="5">
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical" Margin="0 5 5 5">
                     <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Change the extension to another extension"/>
-                    <StackPanel Orientation="Horizontal" Margin="30 2 2 2">
-                        <Label Content="Old extension"/>
-                        <TextBox Width="200" Margin="18 0 0 0" FontSize="12"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="30 2 2 2">
+                    <StackPanel Orientation="Horizontal" Margin="30 5 5 5">
                         <Label Content="New extension"/>
-                        <TextBox Width="200" Margin="13 0 0 0"></TextBox>
+                        <TextBox Width="184" Margin="13 0 0 0"></TextBox>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Add counter to the end of the file"/>
-                    <StackPanel Orientation="Horizontal" Margin="30 2 0 2">
+                    <StackPanel Orientation="Horizontal" Margin="30 5 0 5">
                         <Label Content="Start value:"/>
-                        <TextBox Width="100" Margin="5 0 5 0"></TextBox>
+                        <TextBox Width="80" Margin="5 0 5 0" RenderTransformOrigin="0.5,0.5">
+                            <TextBox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform AngleY="-0.523"/>
+                                    <RotateTransform/>
+                                    <TranslateTransform Y="-0.324"/>
+                                </TransformGroup>
+                            </TextBox.RenderTransform>
+                        </TextBox>
                         <Label Content="Steps:"/>
-                        <TextBox Width="100" Margin="5 0 0 0"></TextBox>
+                        <TextBox Width="80" Margin="5 0 0 0"></TextBox>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="30 2 2 5">
+                    <StackPanel Orientation="Horizontal" Margin="30 5 2 5">
                         <Label Content="Number of digits:"/>
                         <TextBox Width="100" Margin="13 0 0 0"></TextBox>
                     </StackPanel>
                 </StackPanel>
-                <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Convert all characters to lowercase, remove all spaces" Margin="0 2 2 2"/>
-                <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Convert filename to PascalCase" Margin="0 2 2 2"/>
+                <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Convert all characters to lowercase, remove all spaces" Margin="0 5 5 5"/>
+                <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Convert filename to PascalCase" Margin="0 5 5 5"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" Width="360" Margin="5">
-                <CheckBox  Margin="0 5 5 5" IsChecked="False" FontWeight="SemiBold">
-                    <CheckBox.Content>
-                        <TextBlock> Replace certain characters into one character:all - and shift- <LineBreak/>into space</TextBlock>
-                    </CheckBox.Content>
-                </CheckBox>
-                <CheckBox Margin="0 5 5 5" IsChecked="False" FontWeight="SemiBold">
-                    <CheckBox.Content>
-                        <TextBlock> Replace certain characters into one character:all space into<LineBreak/> dot</TextBlock>
-                    </CheckBox.Content>
-                </CheckBox>
+                <StackPanel Orientation="Vertical" Margin="0 5 5 5">
+                    <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Replace characters"/>
+                    <StackPanel Orientation="Horizontal" Margin="30 2 2 2">
+                        <Label Content="Old characters:"/>
+                        <TextBox Width="206" Margin="18 0 0 0" FontSize="12"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="30 2 2 2">
+                        <Label Content="New characters:"/>
+                        <TextBox Width="206" Margin="13 0 0 0"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+
                 <StackPanel Orientation="Horizontal" Margin="0 5 5 5">
                     <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Adding a prefix to all the files"/>
-                    <TextBox Width="150" Margin="18 0 0 0" FontSize="12" Height="26"></TextBox>
+                    <TextBox Width="144" Margin="18 0 0 0" FontSize="12" Height="26"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0 5 5 5">
                     <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Adding a suffix to all the files"/>
-                    <TextBox Width="150" Margin="20 0 0 0" Height="26"></TextBox>
+                    <TextBox Width="144" Margin="20 0 0 0" Height="26"></TextBox>
                 </StackPanel>
                 <CheckBox Margin="0 5 5 5" IsChecked="False" FontWeight="SemiBold">
                     <CheckBox.Content>
                         <TextBlock>Remove all space from the beginning and the ending of the<LineBreak/> filename</TextBlock>
                     </CheckBox.Content>
                 </CheckBox>
-                
+
             </StackPanel>
-            
+
             <StackPanel>
-                <Label FontWeight="Bold">Rename:</Label>
-                <Border BorderThickness="2" BorderBrush="Black" Width="350" Height="185" Margin="0" Background="#1b4965">
+                <GroupBox FontWeight="Bold">
+                    <GroupBox.Header>
+                        Presets
+                    </GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+                            <materialDesign:PackIcon Kind="ContentSaveCheck" Foreground="Black"/>
+                        </Button>
+                        <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+                            <materialDesign:PackIcon Kind="DeleteForever" Foreground="Black"/>
+                        </Button>
+                        <ComboBox Width="300">
+
+                        </ComboBox>
+                    </StackPanel>
+                </GroupBox>
+
+                <Label FontWeight="Bold" Margin="0 0 0 0">Rename:</Label>
+                <Border BorderThickness="2" BorderBrush="Black" Width="360" Height="130" Margin="0 0 0 0" Background="#1b4965">
                     <StackPanel Margin="5">
                         <RadioButton Content="Files only" Margin="3" Foreground="White"/>
                         <RadioButton Content="Folders only"  Margin="3" Foreground="White"/>
                         <RadioButton Content="Files and Folders"  Margin="3" Foreground="White"/>
                         <RadioButton Content="Select items only" IsChecked="True"  Margin="3" Foreground="White"/>
-                        <RadioButton Content="File with Extension: "  Margin="3" Foreground="White"/>
-                        <TextBox Width="300" Height="26" Margin="0 3 3 3"></TextBox>
                         <StackPanel Orientation="Horizontal" Margin="70 0 0 0">
-                            <Button Width="80" Height="28" FontWeight="Bold" Margin="3 3 40 3">Rename</Button>
-                            <Button Width="80" Height="28" FontWeight="Bold" Margin="3">Undo</Button>
+                            <Button Background="AliceBlue" Width="80" Height="28" FontWeight="Bold" Margin="3 3 40 3">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                                Rename
+                            </Button>
+                            <Button Background="AliceBlue" Width="80" Height="28" FontWeight="Bold" Margin="3">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                                Undo
+                            </Button>
                         </StackPanel>
                     </StackPanel>
-                    
+
                 </Border>
             </StackPanel>
         </StackPanel>
