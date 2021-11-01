@@ -45,6 +45,14 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "Dragablz": {
+              "target": "Package",
+              "version": "[0.0.3.223, )"
+            },
+            "MaterialDesignThemes": {
+              "target": "Package",
+              "version": "[4.2.1, )"
+            },
             "PropertyChanged.Fody": {
               "target": "Package",
               "version": "[3.4.0, )"

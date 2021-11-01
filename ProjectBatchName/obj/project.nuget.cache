@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "ASkRsHF0an/MKfNVaTqPeUsdIkRrc8UdhKiKH5Yae/BogHznJQb7iL59Vk+E/PX2d/jTji4ecc8lHI/nUlKHCQ==",
+  "dgSpecHash": "rTn1mpAJQ2wqiaGpjd2K1gjbBHOr2ws+sDJ6tGUlPIby07XB0oZj7xij0yHluGowH91RKwX9GklJ1qGznwjDng==",
   "success": true,
   "projectFilePath": "C:\\Users\\USER\\OneDrive\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\USER\\.nuget\\packages\\dragablz\\0.0.3.223\\dragablz.0.0.3.223.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\fody\\6.5.1\\fody.6.5.1.nupkg.sha512",
+    "C:\\Users\\USER\\.nuget\\packages\\materialdesigncolors\\2.0.3\\materialdesigncolors.2.0.3.nupkg.sha512",
+    "C:\\Users\\USER\\.nuget\\packages\\materialdesignthemes\\4.2.1\\materialdesignthemes.4.2.1.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\propertychanged.fody\\3.4.0\\propertychanged.fody.3.4.0.nupkg.sha512"
   ],
   "logs": []
