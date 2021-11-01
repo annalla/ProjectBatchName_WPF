@@ -48,3 +48,5 @@ C:\Users\USER\OneDrive\Documents\win\BatchName\ProjectBatchName\bin\Debug\netcor
 C:\Users\USER\OneDrive\Documents\win\BatchName\ProjectBatchName\bin\Debug\netcoreapp3.1\MaterialDesignThemes.Wpf.dll
 C:\Users\USER\OneDrive\Documents\win\BatchName\ProjectBatchName\obj\Debug\netcoreapp3.1\ProjectBatchName.csproj.Fody.CopyLocal.cache
 C:\Users\USER\OneDrive\Documents\win\BatchName\ProjectBatchName\obj\Debug\netcoreapp3.1\ProjectBatchName.csproj.CopyComplete
+C:\Users\USER\OneDrive\Documents\win\BatchName\ProjectBatchName\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\USER\OneDrive\Documents\win\BatchName\ProjectBatchName\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.dll
