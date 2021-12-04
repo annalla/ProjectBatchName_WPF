@@ -561,11 +561,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\USER\\OneDrive\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj",
+      "projectUniqueName": "C:\\Users\\USER\\Downloads\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj",
       "projectName": "ProjectBatchName",
-      "projectPath": "C:\\Users\\USER\\OneDrive\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj",
+      "projectPath": "C:\\Users\\USER\\Downloads\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj",
       "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\USER\\OneDrive\\Documents\\win\\BatchName\\ProjectBatchName\\obj\\",
+      "outputPath": "C:\\Users\\USER\\Downloads\\Documents\\win\\BatchName\\ProjectBatchName\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

@@ -17,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Text.RegularExpressions;
 //using System.Windows.Shapes;
 
 
@@ -33,7 +34,10 @@ namespace ProjectBatchName
             InitializeComponent();
         }
         BindingList<TargetInfor> targets = new BindingList<TargetInfor>();
-        private static Dictionary<string,int> filesAndfolders = new Dictionary<string, int>();
+        List<Rule> actions = new List<Rule>();
+        RuleFactory ruleFactory;
+
+        //private static Dictionary<string,int> filesAndfolders = new Dictionary<string, int>();
         private void btnExit(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
@@ -42,7 +46,11 @@ namespace ProjectBatchName
         {
 
         }
-
+        /// <summary>
+        /// Add multiple files to targets and Show in List
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addFiles(object sender, RoutedEventArgs e)
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
@@ -57,36 +65,36 @@ namespace ProjectBatchName
                     {
                         newName = "",
                         status = "",
-                        newExtension = "",
-                        name = Path.GetFileNameWithoutExtension(sFileName),
+                        name = Path.GetFileName(sFileName),
                         extension = Path.GetExtension(sFileName),
                         dir = Path.GetDirectoryName(sFileName) + "\\"
                     };
                     for (int i = 0; i < targets.Count; i++)
                     {
-                        if (targets[i].fullname==target.fullname)
+                        if (targets[i].name==target.name)
                         {
-                            Debug.WriteLine("TT");
                             targets.Remove(targets[i]);
                         }
                     }
                     targets.Add(target);
-                    dataListViewCurrent.Items.Clear();
-                    foreach (TargetInfor tar in targets)
-                    {
-                        dataListViewCurrent.Items.Add(tar);
-                        Debug.WriteLine(tar.fullname);
-                    }
-
-
-
+                    Debug.WriteLine(target.toString());
+                    dataListViewCurrent.Items.Add(target);
                 }
+                //dataListViewCurrent.Items.Clear();
+                //foreach (TargetInfor tar in targets)
+                //{
+                //    dataListViewCurrent.Items.Add(tar);
+                //}
                 //dataListViewCurrent.ItemsSource = targets;
-                
+
                 //txtGetFile.Text = Path.GetDirectoryName(sFileName);
             }
         }
-
+        /// <summary>
+        /// Add multiple folders to targets and Show in List
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addFolders(object sender, RoutedEventArgs e)
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
@@ -102,28 +110,179 @@ namespace ProjectBatchName
                     {
                         newName = "",
                         status = "",
-                        newExtension = "",
-                        name = Path.GetFileNameWithoutExtension(sFileName),
+                        name = Path.GetFileName(sFileName),
                         extension = Path.GetExtension(sFileName),
                         dir = Path.GetDirectoryName(sFileName) + "\\"
                     };
                     for (int i = 0; i < targets.Count; i++)
                     {
-                        if (targets[i].fullname == target.fullname)
+                        if (targets[i].name == target.name)
                         {
-                            Debug.WriteLine("TT");
                             targets.Remove(targets[i]);
                         }
                     }
                     targets.Add(target);
-                    Debug.WriteLine(target.fullname);
+                    Debug.WriteLine(target.toString());
+                    dataListViewCurrent.Items.Add(target);
+                }
+                //dataListViewCurrent.Items.Clear();
+                //foreach (TargetInfor tar in targets)
+                //{
+                //    dataListViewCurrent.Items.Add(tar);
+                //}
+            }
+        }
+        private void window_loaded(object sender, RoutedEventArgs e)
+        {
+            ruleFactory = new RuleFactory();
+            //dataListViewCurrent.ItemsSource = targets;
+        }
+        /// <summary>
+        /// Add all files in Folder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void addAllFilesInFolder(object sender, RoutedEventArgs e)
+        {
+            //add all files in folder
+        }
+        /// <summary>
+        /// refresh all files and folders in CurrentNameList
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RefreshAll(object sender, RoutedEventArgs e)
+        {
+            targets.Clear();
+            dataListViewCurrent.Items.Clear();
+        }
+        /// <summary>
+        /// Delete an item in list Current Name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void deleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// handle batch name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BatchNameClick(object sender, RoutedEventArgs e)
+        {
+            if (actions.Count != 0)
+            {
+                actions.Clear();
+            }
+            if (AddCounterBox.IsChecked == true)
+            {
+                handleAddCounterRule();
+            }
+            for (int i = 0; i < targets.Count; i++)
+            {
+                string response = processBatchName(targets[i].name);
+                if (targets[i].extension == "")
+                {
+                    try
+                    {
+                        Directory.Move(targets[i].dir + targets[i].name, targets[i].dir + response);
+                        targets[i].newName = response;
+                        if (targets[i].newName != targets[i].name)
+                        {
+                            targets[i].status = "Changed";
+                        }
+                        else
+                        {
+                            targets[i].status = "UnChanged";
+                        }
+                    }
+                    catch
+                    {
+                        targets[i].newName = "|";
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        File.Move(targets[i].dir + targets[i].name, targets[i].dir + response);
+                        targets[i].newName = response;
+                        if (targets[i].newName != targets[i].name)
+                        {
+                            targets[i].status = "Changed";
+                        }
+                        else
+                        {
+                            targets[i].status = "UnChanged";
+                        }
+                    }
+                    catch
+                    {
+                        targets[i].newName = "|";
+                    }
                 }
             }
         }
 
-        private void window_loaded(object sender, RoutedEventArgs e)
+        private void handleAddCounterRule()
         {
-            //dataListViewCurrent.ItemsSource = targets;
+            string numString = NumberDigitCounter.Text;
+            string startValueString = StartValueCounter.Text;
+            string stepString = StepCounter.Text;
+            if (stepString.Length == 0 || stepString == null)
+            {
+                stepString = "1";
+            }
+            if (numString == null || startValueString == null || numString.Length == 0 || startValueString.Length == 0)
+            {
+                MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
+                return;
+            }
+            if (!Regex.IsMatch(numString, @"^\d+$") || !Regex.IsMatch(stepString, @"^\d+$") || !Regex.IsMatch(startValueString, @"^\d+$"))
+            {
+                MessageBox.Show("Add Counter: Start Value or Number Of Digits or Steps is not an integer!!", "Warning");
+                return;
+            }
+            actions.Add(ruleFactory.createRule("counter", new Argument_3 { arg1 = Int32.Parse(startValueString), arg2 = Int32.Parse(stepString), arg3 = Int32.Parse(numString) }));
+        }
+
+        /// <summary>
+        /// Handle preview batch name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HandlePreview(object sender, RoutedEventArgs e)
+        {
+            if (actions.Count != 0)
+            {
+                actions.Clear();
+            }
+            if (AddCounterBox.IsChecked == true)
+            {
+                handleAddCounterRule();
+            }
+            for(int i = 0; i < targets.Count; i++)
+            {
+                string response = processBatchName(targets[i].name);   
+                targets[i].newName = response;
+            }
+
+        }
+
+        private string processBatchName(string name)
+        {
+            string res = name;
+            for (int j = 0; j < actions.Count; j++)
+            {
+                res = actions[j].Rename(res);
+                if (res == "|")
+                {
+                    break;
+                }
+            }
+            return res;
         }
     }
 }

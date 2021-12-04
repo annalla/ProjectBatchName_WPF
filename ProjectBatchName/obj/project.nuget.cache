@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zQ7JqFTV+Ns6bEwh1Dg/Z4IWUNKgJ1CKPadtXgw+MJmBwSbWWEnoGMfS2zVk3Oz+gUZrIBYSG/Q1L3Y2+rnu3Q==",
+  "dgSpecHash": "Q5kU2VHYMJckQfjxI0IuX/N66qdgXjHDKmkWcgBeDOBFldqQpxqsDx3e5yW5fltAbLWC6KzzsP+jgn2Mu3UAfA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\USER\\OneDrive\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj",
+  "projectFilePath": "C:\\Users\\USER\\Downloads\\Documents\\win\\BatchName\\ProjectBatchName\\ProjectBatchName.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\USER\\.nuget\\packages\\dragablz\\0.0.3.223\\dragablz.0.0.3.223.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\fody\\6.5.1\\fody.6.5.1.nupkg.sha512",

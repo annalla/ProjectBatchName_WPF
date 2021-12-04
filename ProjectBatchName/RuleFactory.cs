@@ -4,14 +4,14 @@ using System.Text;
 
 namespace ProjectBatchName
 {
-    public class CreateRule
+    public class RuleFactory
     {
-        public CreateRule()
+        public RuleFactory()
         {
             initRule();
         }
         private static Dictionary<string, Rule> sampleRules = new Dictionary<string, Rule>();
-        private static void initRule()
+        static void initRule()
         {
             sampleRules.Clear();
             sampleRules.Add("counter", new AddCounter());

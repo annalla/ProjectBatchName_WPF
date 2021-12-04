@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace ProjectBatchName
@@ -9,7 +10,16 @@ namespace ProjectBatchName
         public Lowercase() { }
         override public String Rename(String oldName)
         {
-            throw new NotImplementedException();
+            string str = Path.GetFileNameWithoutExtension(oldName);
+
+            // Remove all space 
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (!Char.IsLetter(str[i]) && !Char.IsLetter(str[i]))
+                    str = str.Remove(i, 1);
+            }
+
+            return str.ToLower() + Path.GetExtension(oldName);
         }
         override public Rule Create(Arguments args)
         {
