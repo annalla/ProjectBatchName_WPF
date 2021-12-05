@@ -220,6 +220,7 @@ namespace ProjectBatchName
             {
                 handleAddSuffixRule();
             }
+<<<<<<< HEAD
             //Thêm tiền tố
             if (AddPrefix.IsChecked == true)
             {
@@ -235,6 +236,8 @@ namespace ProjectBatchName
             {
                 handleAddExtentionRule();
             }
+=======
+>>>>>>> 60bbf588b206e07c701fe7c2e6b411b96bfef503
             //Low Case & Remove Spaces
             if (LowCaseRemoveSpaces.IsChecked == true)
             {
@@ -325,6 +328,8 @@ namespace ProjectBatchName
             }
             actions.Add(ruleFactory.createRule("suffix", new Argument_1 { arg1 = _sufixText }));
         }
+
+<<<<<<< HEAD
         private void handleAddPrefixRule()
         {
             string _prefixText = prefixText.Text;
@@ -366,6 +371,8 @@ namespace ProjectBatchName
             actions.Add(ruleFactory.createRule("ext", new Argument_1 { arg1 = _extentionText }));
         }
 
+=======
+>>>>>>> 60bbf588b206e07c701fe7c2e6b411b96bfef503
         private void handleLowCaseRemoveSpacesRule()
         {
             actions.Add(ruleFactory.createRule("lowercase", new Arguments { }));
@@ -397,6 +404,7 @@ namespace ProjectBatchName
             {
                 handleAddSuffixRule();
             }
+<<<<<<< HEAD
 
             //tiền tố
             if (AddPrefix.IsChecked == true)
@@ -415,6 +423,8 @@ namespace ProjectBatchName
                 handleAddExtentionRule();
             }
 
+=======
+>>>>>>> 60bbf588b206e07c701fe7c2e6b411b96bfef503
             //Low Case & Remove Spaces
             if (LowCaseRemoveSpaces.IsChecked == true)
             {
