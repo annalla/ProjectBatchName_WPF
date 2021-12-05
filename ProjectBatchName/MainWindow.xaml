@@ -93,9 +93,14 @@
                         <ListView Name="dataListViewCurrent" >
                             <ListView.Resources>
                                 <ContextMenu x:Key="ItemsContextMenu">
-                                    <MenuItem Header="Delete" Click="deleteMenuItem_Click"></MenuItem>
+                                    <MenuItem Header="Clear" Click="deleteMenuItem_Click"></MenuItem>
                                 </ContextMenu>
                             </ListView.Resources>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}" >
+                                    <Setter Property="ContextMenu" Value="{StaticResource ItemsContextMenu}" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Name" Width="400" DisplayMemberBinding="{Binding name}"/>
@@ -139,8 +144,8 @@
                         <TextBox Name="NumberDigitCounter" Width="70" Margin="13 0 0 0"></TextBox>
                     </StackPanel>
                 </StackPanel>
-                <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Lowercase and remove all spaces" Margin="0 5 5 5"/>
-                <CheckBox IsChecked="False" FontWeight="SemiBold" Content="PascalCase" Margin="0 5 5 5"/>
+                <CheckBox Name="LowCaseRemoveSpaces" IsChecked="False" FontWeight="SemiBold" Content="Lowercase and remove all spaces" Margin="0 5 5 5"/>
+                <CheckBox Name="PascalCase" IsChecked="False" FontWeight="SemiBold" Content="PascalCase" Margin="0 5 5 5"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" Width="272" Margin="5">
                 <StackPanel Orientation="Vertical" Margin="0 5 5 5">
@@ -156,12 +161,12 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0 5 5 5">
-                    <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Adding a prefix"/>
-                    <TextBox Width="135" Margin="27 0 0 0" Height="26"></TextBox>
+                    <CheckBox Name="AddPrefix" IsChecked="False" FontWeight="SemiBold" Content="Adding a prefix"/>
+                    <TextBox Name="prefixText" Width="135" Margin="27 0 0 0" Height="26"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0 5 5 5">
-                    <CheckBox IsChecked="False" FontWeight="SemiBold" Content="Adding a suffix"/>
-                    <TextBox Width="135" Margin="30 0 0 0" Height="26"></TextBox>
+                    <CheckBox Name="AddSuffix" IsChecked="False" FontWeight="SemiBold" Content="Adding a suffix"/>
+                    <TextBox Name="sufixText" Width="135" Margin="30 0 0 0" Height="26"></TextBox>
                 </StackPanel>
                 <!--<CheckBox Margin="0 5 5 5" IsChecked="False" FontWeight="SemiBold">
                     <CheckBox.Content>
