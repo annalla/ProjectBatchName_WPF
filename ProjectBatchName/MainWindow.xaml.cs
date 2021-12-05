@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 //using System.Windows.Shapes;
 
 
+
 namespace ProjectBatchName
 {
     /// <summary>
@@ -30,7 +31,7 @@ namespace ProjectBatchName
     {
         public MainWindow()
         {
-            
+
             InitializeComponent();
         }
         BindingList<TargetInfor> targets = new BindingList<TargetInfor>();
@@ -71,7 +72,7 @@ namespace ProjectBatchName
                     };
                     for (int i = 0; i < targets.Count; i++)
                     {
-                        if (targets[i].name==target.name)
+                        if (targets[i].name == target.name)
                         {
                             targets.Remove(targets[i]);
                         }
@@ -132,6 +133,7 @@ namespace ProjectBatchName
                 //}
             }
         }
+
         private void window_loaded(object sender, RoutedEventArgs e)
         {
             ruleFactory = new RuleFactory();
@@ -145,6 +147,37 @@ namespace ProjectBatchName
         private void addAllFilesInFolder(object sender, RoutedEventArgs e)
         {
             //add all files in folder
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = "C:\\";
+            dialog.Multiselect = true;
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                foreach (string d in dialog.FileNames)
+                {
+                    foreach (string sFileName in Directory.GetFiles(d))
+                    {
+                        TargetInfor target = new TargetInfor
+                        {
+                            newName = "",
+                            status = "",
+                            name = Path.GetFileName(sFileName),
+                            extension = Path.GetExtension(sFileName),
+                            dir = Path.GetDirectoryName(sFileName) + "\\"
+                        };
+                        for (int i = 0; i < targets.Count; i++)
+                        {
+                            if (targets[i].name == target.name)
+                            {
+                                targets.Remove(targets[i]);
+                            }
+                        }
+                        targets.Add(target);
+                        Debug.WriteLine(target.toString());
+                        dataListViewCurrent.Items.Add(target);
+                    }
+                }
+            }
         }
         /// <summary>
         /// refresh all files and folders in CurrentNameList
@@ -163,7 +196,9 @@ namespace ProjectBatchName
         /// <param name="e"></param>
         private void deleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            var index = dataListViewCurrent.SelectedIndex;
+            targets.RemoveAt(index);
+            dataListViewCurrent.Items.RemoveAt(index);
         }
         /// <summary>
         /// handle batch name
@@ -179,6 +214,36 @@ namespace ProjectBatchName
             if (AddCounterBox.IsChecked == true)
             {
                 handleAddCounterRule();
+            }
+            //Thêm hậu tố
+            if (AddSuffix.IsChecked == true)
+            {
+                handleAddSuffixRule();
+            }
+            //Thêm tiền tố
+            if (AddPrefix.IsChecked == true)
+            {
+                handleAddPrefixRule();
+            }
+            //replace
+            if (AddReplace.IsChecked == true)
+            {
+                handleAddReplaceRule();
+            }
+            //extention
+            if (AddExtention.IsChecked == true)
+            {
+                handleAddExtentionRule();
+            }
+            //Low Case & Remove Spaces
+            if (LowCaseRemoveSpaces.IsChecked == true)
+            {
+                handleLowCaseRemoveSpacesRule();
+            }
+            //Pascal Case
+            if (PascalCase.IsChecked == true)
+            {
+                handlePascalCaseRule();
             }
             for (int i = 0; i < targets.Count; i++)
             {
@@ -200,7 +265,7 @@ namespace ProjectBatchName
                     }
                     catch
                     {
-                        targets[i].newName = "|";
+                        targets[i].newName = "error";
                     }
                 }
                 else
@@ -220,7 +285,7 @@ namespace ProjectBatchName
                     }
                     catch
                     {
-                        targets[i].newName = "|";
+                        targets[i].newName = "error";
                     }
                 }
             }
@@ -248,6 +313,69 @@ namespace ProjectBatchName
             actions.Add(ruleFactory.createRule("counter", new Argument_3 { arg1 = Int32.Parse(startValueString), arg2 = Int32.Parse(stepString), arg3 = Int32.Parse(numString) }));
         }
 
+        private void handleAddSuffixRule()
+        {
+            string _sufixText = sufixText.Text;
+
+            if (_sufixText == null)
+            {
+                //MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
+                //return;
+                _sufixText = "";
+            }
+            actions.Add(ruleFactory.createRule("suffix", new Argument_1 { arg1 = _sufixText }));
+        }
+        private void handleAddPrefixRule()
+        {
+            string _prefixText = prefixText.Text;
+
+            if (_prefixText == null)
+            {
+                //MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
+                //return;
+                _prefixText = "";
+            }
+            actions.Add(ruleFactory.createRule("prefix", new Argument_1 { arg1 = _prefixText }));
+        }
+
+        private void handleAddReplaceRule()
+        {
+            string _oldReplaceText = oldReplaceText.Text;
+            string _newReplaceText = newReplaceText.Text;
+
+            if (_newReplaceText == null || _oldReplaceText == null)
+            {
+                //MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
+                //return;
+                _newReplaceText = "";
+                _oldReplaceText = "";
+            }
+            actions.Add(ruleFactory.createRule("replace", new Argument_2 { arg1 = _oldReplaceText, arg2 = _newReplaceText }));
+        }
+
+        private void handleAddExtentionRule()
+        {
+            string _extentionText = extentionText.Text;
+
+            if (_extentionText == null)
+            {
+                //MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
+                //return;
+                _extentionText = "";
+            }
+            actions.Add(ruleFactory.createRule("ext", new Argument_1 { arg1 = _extentionText }));
+        }
+
+        private void handleLowCaseRemoveSpacesRule()
+        {
+            actions.Add(ruleFactory.createRule("lowercase", new Arguments { }));
+        }
+
+        private void handlePascalCaseRule()
+        {
+            actions.Add(ruleFactory.createRule("pascalcase", new Arguments { }));
+        }
+
         /// <summary>
         /// Handle preview batch name
         /// </summary>
@@ -259,13 +387,47 @@ namespace ProjectBatchName
             {
                 actions.Clear();
             }
+            //Thêm bộ đếm
             if (AddCounterBox.IsChecked == true)
             {
                 handleAddCounterRule();
             }
-            for(int i = 0; i < targets.Count; i++)
+            //Thêm hậu tố
+            if (AddSuffix.IsChecked == true)
             {
-                string response = processBatchName(targets[i].name);   
+                handleAddSuffixRule();
+            }
+
+            //tiền tố
+            if (AddPrefix.IsChecked == true)
+            {
+                handleAddPrefixRule();
+            }
+
+            //replace
+            if (AddReplace.IsChecked == true)
+            {
+                handleAddReplaceRule();
+            }
+            //extention
+            if (AddExtention.IsChecked == true)
+            {
+                handleAddExtentionRule();
+            }
+
+            //Low Case & Remove Spaces
+            if (LowCaseRemoveSpaces.IsChecked == true)
+            {
+                handleLowCaseRemoveSpacesRule();
+            }
+            //Pascal Case
+            if (PascalCase.IsChecked == true)
+            {
+                handlePascalCaseRule();
+            }
+            for (int i = 0; i < targets.Count; i++)
+            {
+                string response = processBatchName(targets[i].name);
                 targets[i].newName = response;
             }
 

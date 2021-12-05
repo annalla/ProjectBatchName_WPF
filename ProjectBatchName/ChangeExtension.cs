@@ -13,10 +13,10 @@ namespace ProjectBatchName
         {
             //Kiểm tra extension có phải đuôi có thể chuyển, ngược lại return null;
             string str = Path.GetFileNameWithoutExtension(oldName);
-            string extension = Path.ChangeExtension(Path.GetExtension(oldName),ext);
+            string extension = Path.ChangeExtension(Path.GetExtension(oldName), ext);
             str += extension;
-            
-            return "";
+            return str;
+            //return "";
             //File file = new File(str); 
             //if (FileLoadException(file)) {
             //    return null;

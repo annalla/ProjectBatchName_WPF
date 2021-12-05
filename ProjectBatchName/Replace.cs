@@ -11,9 +11,13 @@ namespace ProjectBatchName
         public String newRep { get; set; }
         override public String Rename(String oldName)
         {
+            string str = "";
             //Replacing oldRep into space newRep
-            string str = Path.GetFileNameWithoutExtension(oldName);
-            str.Replace(oldRep, newRep);
+            if (oldRep == Path.GetFileNameWithoutExtension(oldName))
+            {
+                str = Path.GetFileNameWithoutExtension(oldName);
+            }
+            str = newRep;
             return str + Path.GetExtension(oldName);
         }
         override public Rule Create(Arguments args)
