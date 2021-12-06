@@ -246,50 +246,105 @@ namespace ProjectBatchName
             }
             for (int i = 0; i < targets.Count; i++)
             {
-                string response = processBatchName(targets[i].name, actions);
-               if (targets[i].extension == "")
+                if (CheckTarget(targets[i]))
                 {
-                    try
+                    string response = processBatchName(targets[i].name, actions);
+                    int duplicate = CheckDuplicate(i, targets[i].dir + response);
+                    if (targets[i].extension == "")
                     {
-                        Directory.Move(targets[i].dir + targets[i].name, targets[i].dir + response);
-                        targets[i].newName = response;
-                        if (targets[i].newName != targets[i].name)
+                        try
                         {
-                            targets[i].status = "Changed";
+                            if (duplicate!=0)
+                            {
+                                Rule actionDuplicate = ruleFactory.createRule("duplicate", new Argument_1 { arg1 = duplicate.ToString() });
+                                response = actionDuplicate.Rename(response);
+                            }
+                            Directory.Move(targets[i].dir + targets[i].name, targets[i].dir + response);
+                            targets[i].newName = response;
+                            if (targets[i].newName != targets[i].name)
+                            {
+                                targets[i].status = "Changed";
+                            }
+                            else
+                            {
+                                targets[i].status = "UnChanged";
+                            }
+                            targets[i].newName = "";
+                            targets[i].name = response;
                         }
-                        else
+                        catch
                         {
-                            targets[i].status = "UnChanged";
-                        }
-                    }
-                    catch
-                    {
-                        targets[i].newName = "|";
-                        targets[i].status = "Error";
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        File.Move(targets[i].dir + targets[i].name, targets[i].dir + response);
-                        targets[i].newName = response;
-                        if (targets[i].newName != targets[i].name)
-                        {
-                            targets[i].status = "Changed";
-                        }
-                        else
-                        {
-                            targets[i].status = "UnChanged";
+                            targets[i].newName = "|";
+                            targets[i].status = "Error";
                         }
                     }
-                    catch
+                    else
                     {
-                        targets[i].newName = "|";
-                        targets[i].status = "Error";
+                        try
+                        {
+                            if (duplicate != 0)
+                            {
+                                Rule actionDuplicate = ruleFactory.createRule("duplicate", new Argument_1 { arg1 = duplicate.ToString() });
+                                response = actionDuplicate.Rename(response);
+                            }
+                            File.Move(targets[i].dir + targets[i].name, targets[i].dir + response);
+                            targets[i].newName = response;
+                            if (targets[i].newName != targets[i].name)
+                            {
+                                targets[i].status = "Changed";
+                            }
+                            else
+                            {
+                                targets[i].status = "UnChanged";
+                            }
+                            targets[i].newName = "";
+                            targets[i].name = response;
+                        }
+                        catch
+                        {
+                            targets[i].newName = "|";
+                            targets[i].status = "Error";
+                        }
                     }
                 }
             }
+        }
+
+        private int CheckDuplicate(int i, string response)
+        {
+            string directory = targets[i].dir;
+            directory = directory.Remove(directory.Length - 1, 1);
+            string[] all;
+            int result = 0;
+            if (targets[i].extension=="")
+            {
+                all = Directory.GetDirectories(directory);
+            }
+            else
+            {
+                all = Directory.GetFiles(directory);
+            }
+            foreach (string str in all)
+            {
+                Debug.WriteLine(str);
+                if (response == str)
+                {
+                    result++;
+                }
+            }
+            if (result == 1 && response == (targets[i].dir + targets[i].name))
+            {
+                return 0;
+            }
+            for (int index = 0; index < i; index++)
+            {
+                string[] str = targets[index].newName.Split("_duplicate_");
+                if (response == targets[index].dir + str[0]+ Path.GetExtension(targets[index].newName)||response== targets[index].dir+ targets[index].newName)
+                {
+                    result++;
+                }
+            }
+            return result;
         }
 
         private bool handleAddCounterRule()
@@ -450,10 +505,24 @@ namespace ProjectBatchName
             }
             for (int i = 0; i < targets.Count; i++)
             {
-                string response = processBatchName(targets[i].name,actions);
-                targets[i].newName = response;
+                if (CheckTarget(targets[i]))
+                {
+                    string response = processBatchName(targets[i].name, actions);
+                    int duplicate = CheckDuplicate(i, targets[i].dir + response);
+                    if (duplicate != 0)
+                    {
+                        Rule actionDuplicate = ruleFactory.createRule("duplicate", new Argument_1 { arg1 = duplicate.ToString() });
+                        response = actionDuplicate.Rename(response);
+                    }
+                    targets[i].newName = response;
+                }
             }
 
+        }
+
+        private bool CheckTarget(TargetInfor targetInfor)
+        {
+            return true;
         }
 
         private string processBatchName(string name,List<Rule> action)

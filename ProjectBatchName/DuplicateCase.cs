@@ -13,9 +13,7 @@ namespace ProjectBatchName
         override public String Rename(String oldName)
         {
             string str = Path.GetFileNameWithoutExtension(oldName);
-            string counter = start.ToString();
-            
-            this.start++;
+            string counter = start.ToString();            
             string result = str + "_duplicate_" + counter + "" + Path.GetExtension(oldName);
             if (result.Length <= 255)
                 return result;
