@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Text.RegularExpressions;
+using System.Collections;
 //using System.Windows.Shapes;
 
 
@@ -31,14 +32,13 @@ namespace ProjectBatchName
     {
         public MainWindow()
         {
-
             InitializeComponent();
         }
         BindingList<TargetInfor> targets = new BindingList<TargetInfor>();
         List<Rule> actions = new List<Rule>();
+        List<List<Rule>> presets = new List<List<Rule>>();
         RuleFactory ruleFactory;
 
-        //private static Dictionary<string,int> filesAndfolders = new Dictionary<string, int>();
         private void btnExit(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
@@ -72,7 +72,7 @@ namespace ProjectBatchName
                     };
                     for (int i = 0; i < targets.Count; i++)
                     {
-                        if (targets[i].name == target.name)
+                        if (targets[i].toString() == target.toString())
                         {
                             targets.Remove(targets[i]);
                         }
@@ -81,14 +81,7 @@ namespace ProjectBatchName
                     Debug.WriteLine(target.toString());
                     dataListViewCurrent.Items.Add(target);
                 }
-                //dataListViewCurrent.Items.Clear();
-                //foreach (TargetInfor tar in targets)
-                //{
-                //    dataListViewCurrent.Items.Add(tar);
-                //}
-                //dataListViewCurrent.ItemsSource = targets;
 
-                //txtGetFile.Text = Path.GetDirectoryName(sFileName);
             }
         }
         /// <summary>
@@ -117,7 +110,7 @@ namespace ProjectBatchName
                     };
                     for (int i = 0; i < targets.Count; i++)
                     {
-                        if (targets[i].name == target.name)
+                        if (targets[i].toString() == target.toString())
                         {
                             targets.Remove(targets[i]);
                         }
@@ -126,11 +119,6 @@ namespace ProjectBatchName
                     Debug.WriteLine(target.toString());
                     dataListViewCurrent.Items.Add(target);
                 }
-                //dataListViewCurrent.Items.Clear();
-                //foreach (TargetInfor tar in targets)
-                //{
-                //    dataListViewCurrent.Items.Add(tar);
-                //}
             }
         }
 
@@ -154,28 +142,34 @@ namespace ProjectBatchName
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 foreach (string d in dialog.FileNames)
-                {
-                    foreach (string sFileName in Directory.GetFiles(d))
-                    {
-                        TargetInfor target = new TargetInfor
+                {   
+                        string[] allfiles = Directory.GetFileSystemEntries(d, "*", SearchOption.AllDirectories);
+                        foreach (string sFileName in allfiles)
                         {
-                            newName = "",
-                            status = "",
-                            name = Path.GetFileName(sFileName),
-                            extension = Path.GetExtension(sFileName),
-                            dir = Path.GetDirectoryName(sFileName) + "\\"
-                        };
-                        for (int i = 0; i < targets.Count; i++)
-                        {
-                            if (targets[i].name == target.name)
+                            Debug.WriteLine(sFileName);
+                            //files
+                            if (Path.GetExtension(sFileName) != "")
                             {
-                                targets.Remove(targets[i]);
+                                TargetInfor target = new TargetInfor
+                                {
+                                    newName = "",
+                                    status = "",
+                                    name = Path.GetFileName(sFileName),
+                                    extension = Path.GetExtension(sFileName),
+                                    dir = Path.GetDirectoryName(sFileName) + "\\"
+                                };
+                                for (int i = 0; i < targets.Count; i++)
+                                {
+                                    if (targets[i].toString() == target.toString())
+                                    {
+                                        targets.Remove(targets[i]);
+                                    }
+                                }
+                                targets.Add(target);
+                                Debug.WriteLine(target.toString());
+                                dataListViewCurrent.Items.Add(target);
                             }
                         }
-                        targets.Add(target);
-                        Debug.WriteLine(target.toString());
-                        dataListViewCurrent.Items.Add(target);
-                    }
                 }
             }
         }
@@ -213,31 +207,33 @@ namespace ProjectBatchName
             }
             if (AddCounterBox.IsChecked == true)
             {
-                handleAddCounterRule();
+                if (!handleAddCounterRule())
+                    return ;
             }
             //Thêm hậu tố
             if (AddSuffix.IsChecked == true)
             {
-                handleAddSuffixRule();
+                if (!handleAddSuffixRule())
+                    return ;
             }
-<<<<<<< HEAD
             //Thêm tiền tố
             if (AddPrefix.IsChecked == true)
             {
-                handleAddPrefixRule();
+                if (!handleAddPrefixRule())
+                    return ;
             }
             //replace
             if (AddReplace.IsChecked == true)
             {
-                handleAddReplaceRule();
+                if (!handleAddReplaceRule())
+                    return ;
             }
             //extention
             if (AddExtention.IsChecked == true)
             {
-                handleAddExtentionRule();
+                if (!handleAddExtentionRule())
+                    return ;
             }
-=======
->>>>>>> 60bbf588b206e07c701fe7c2e6b411b96bfef503
             //Low Case & Remove Spaces
             if (LowCaseRemoveSpaces.IsChecked == true)
             {
@@ -250,8 +246,8 @@ namespace ProjectBatchName
             }
             for (int i = 0; i < targets.Count; i++)
             {
-                string response = processBatchName(targets[i].name);
-                if (targets[i].extension == "")
+                string response = processBatchName(targets[i].name, actions);
+               if (targets[i].extension == "")
                 {
                     try
                     {
@@ -268,7 +264,8 @@ namespace ProjectBatchName
                     }
                     catch
                     {
-                        targets[i].newName = "error";
+                        targets[i].newName = "|";
+                        targets[i].status = "Error";
                     }
                 }
                 else
@@ -288,13 +285,14 @@ namespace ProjectBatchName
                     }
                     catch
                     {
-                        targets[i].newName = "error";
+                        targets[i].newName = "|";
+                        targets[i].status = "Error";
                     }
                 }
             }
         }
 
-        private void handleAddCounterRule()
+        private bool handleAddCounterRule()
         {
             string numString = NumberDigitCounter.Text;
             string startValueString = StartValueCounter.Text;
@@ -306,73 +304,89 @@ namespace ProjectBatchName
             if (numString == null || startValueString == null || numString.Length == 0 || startValueString.Length == 0)
             {
                 MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
-                return;
+                return false;
             }
             if (!Regex.IsMatch(numString, @"^\d+$") || !Regex.IsMatch(stepString, @"^\d+$") || !Regex.IsMatch(startValueString, @"^\d+$"))
             {
                 MessageBox.Show("Add Counter: Start Value or Number Of Digits or Steps is not an integer!!", "Warning");
-                return;
+                return false;
             }
             actions.Add(ruleFactory.createRule("counter", new Argument_3 { arg1 = Int32.Parse(startValueString), arg2 = Int32.Parse(stepString), arg3 = Int32.Parse(numString) }));
+            return true;
         }
 
-        private void handleAddSuffixRule()
+        private bool handleAddSuffixRule()
         {
             string _sufixText = sufixText.Text;
-
             if (_sufixText == null)
             {
-                //MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
-                //return;
-                _sufixText = "";
+                MessageBox.Show("Suffix empty", "Warning");
+                return false;
+            }
+            if (checkSpecialCharacter(_sufixText))
+            {
+                MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                return false;
             }
             actions.Add(ruleFactory.createRule("suffix", new Argument_1 { arg1 = _sufixText }));
+            return true;
         }
 
-<<<<<<< HEAD
-        private void handleAddPrefixRule()
+        private bool handleAddPrefixRule()
         {
             string _prefixText = prefixText.Text;
 
             if (_prefixText == null)
             {
-                //MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
-                //return;
-                _prefixText = "";
+                MessageBox.Show("Suffix empty", "Warning");
+                return false;
+            }
+            if (checkSpecialCharacter(_prefixText))
+            {
+                MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                return false;
             }
             actions.Add(ruleFactory.createRule("prefix", new Argument_1 { arg1 = _prefixText }));
+            return true;
         }
 
-        private void handleAddReplaceRule()
+        private bool handleAddReplaceRule()
         {
             string _oldReplaceText = oldReplaceText.Text;
             string _newReplaceText = newReplaceText.Text;
 
             if (_newReplaceText == null || _oldReplaceText == null)
             {
-                //MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
-                //return;
                 _newReplaceText = "";
                 _oldReplaceText = "";
             }
+            if (checkSpecialCharacter(_newReplaceText))
+            {
+                MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                return false;
+            }
             actions.Add(ruleFactory.createRule("replace", new Argument_2 { arg1 = _oldReplaceText, arg2 = _newReplaceText }));
+            return true;
         }
 
-        private void handleAddExtentionRule()
+        private bool handleAddExtentionRule()
         {
             string _extentionText = extentionText.Text;
 
             if (_extentionText == null)
             {
-                //MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
-                //return;
-                _extentionText = "";
+                MessageBox.Show("Extension is empty!!", "Warning");
+                return false;
+            }
+            if (checkSpecialCharacter(_extentionText))
+            {
+                MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                return false;
             }
             actions.Add(ruleFactory.createRule("ext", new Argument_1 { arg1 = _extentionText }));
+            return true;
         }
 
-=======
->>>>>>> 60bbf588b206e07c701fe7c2e6b411b96bfef503
         private void handleLowCaseRemoveSpacesRule()
         {
             actions.Add(ruleFactory.createRule("lowercase", new Arguments { }));
@@ -397,34 +411,33 @@ namespace ProjectBatchName
             //Thêm bộ đếm
             if (AddCounterBox.IsChecked == true)
             {
-                handleAddCounterRule();
+                if (!handleAddCounterRule()) return;
             }
             //Thêm hậu tố
             if (AddSuffix.IsChecked == true)
             {
-                handleAddSuffixRule();
+                if(!handleAddSuffixRule()) return;
             }
-<<<<<<< HEAD
 
             //tiền tố
             if (AddPrefix.IsChecked == true)
             {
-                handleAddPrefixRule();
+                if (!handleAddPrefixRule())
+                    return;
             }
 
             //replace
             if (AddReplace.IsChecked == true)
             {
-                handleAddReplaceRule();
+                if (!handleAddReplaceRule())
+                    return;
             }
             //extention
             if (AddExtention.IsChecked == true)
             {
-                handleAddExtentionRule();
+                if (!handleAddExtentionRule())
+                    return ;
             }
-
-=======
->>>>>>> 60bbf588b206e07c701fe7c2e6b411b96bfef503
             //Low Case & Remove Spaces
             if (LowCaseRemoveSpaces.IsChecked == true)
             {
@@ -437,24 +450,47 @@ namespace ProjectBatchName
             }
             for (int i = 0; i < targets.Count; i++)
             {
-                string response = processBatchName(targets[i].name);
+                string response = processBatchName(targets[i].name,actions);
                 targets[i].newName = response;
             }
 
         }
 
-        private string processBatchName(string name)
+        private string processBatchName(string name,List<Rule> action)
         {
             string res = name;
-            for (int j = 0; j < actions.Count; j++)
+            for (int j = 0; j < action.Count; j++)
             {
-                res = actions[j].Rename(res);
+                res = action[j].Rename(res);
                 if (res == "|")
                 {
                     break;
                 }
             }
             return res;
+        }
+        private bool checkSpecialCharacter(string str)
+        {
+            string pattern= @"[<>:?*\""\\/|]";
+            return Regex.IsMatch(str,pattern);
+        }
+        /// <summary>
+        /// save Preset
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void savePreset(object sender, RoutedEventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// deleteOneSetOfRule
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void deleteOneSetOfRule(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

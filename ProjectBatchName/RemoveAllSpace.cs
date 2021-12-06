@@ -24,5 +24,9 @@ namespace ProjectBatchName
         {
             return new RemoveAllSpace() ;
         }
+        override public Rule Clone()
+        {
+            return new RemoveAllSpace();
+        }
     }
 }

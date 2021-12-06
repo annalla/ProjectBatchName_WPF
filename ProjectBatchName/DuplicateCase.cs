@@ -5,16 +5,18 @@ using System.Text;
 
 namespace ProjectBatchName
 {
-    public class AddPrefix : Rule
+    class DuplicateCase:Rule
     {
-        public string name { get => "prefix"; }
-        public String prefix { get; set; }
-        public AddPrefix() { }
+        public string name { get => "duplicate"; }
+        public int start { get; set; }
+        public DuplicateCase() { }
         override public String Rename(String oldName)
         {
             string str = Path.GetFileNameWithoutExtension(oldName);
-            str = prefix + str;
-            string result = str + Path.GetExtension(oldName);
+            string counter = start.ToString();
+            
+            this.start++;
+            string result = str + "_duplicate_" + counter + "" + Path.GetExtension(oldName);
             if (result.Length <= 255)
                 return result;
             return "|";
@@ -22,11 +24,11 @@ namespace ProjectBatchName
         override public Rule Create(Arguments args)
         {
             Argument_1 arg = (Argument_1)args;
-            return new AddPrefix() { prefix = arg.arg1 };
+            return new DuplicateCase() { start = Int32.Parse(arg.arg1) };
         }
         override public Rule Clone()
         {
-            return new AddPrefix();
+            return new DuplicateCase();
         }
     }
 }

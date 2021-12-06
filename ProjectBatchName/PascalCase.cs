@@ -1,51 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ProjectBatchName
 {
     public class PascalCase : Rule
     {
+        public string name { get => "pascalcase"; }
         public PascalCase() { }
         override public String Rename(String oldName)
         {
-            string result = "";
             string str = Path.GetFileNameWithoutExtension(oldName);
+            Regex invalidCharsRgx = new Regex("[^_a-zA-Z0-9]");
+            Regex whiteSpace = new Regex(@"(?<=\s)");
+            Regex startsWithLowerCaseChar = new Regex("^[a-z]");
+            Regex firstCharFollowedByUpperCasesOnly = new Regex("(?<=[A-Z])[A-Z0-9]+$");
+            Regex lowerCaseNextToNumber = new Regex("(?<=[0-9])[a-z]");
+            Regex upperCaseInside = new Regex("(?<=[A-Z])[A-Z]+?((?=[A-Z][a-z])|(?=[0-9]))");
 
-            
-            // PascalCase
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (!Char.IsLetter(str[i]) && !Char.IsNumber(str[i]) && Char.IsLetter(str[i + 1]))
-                {
-                    result = result + " " + Char.ToUpper(str[i + 1]); i++; continue;
-                }
-                else if (!Char.IsLetter(str[i]) && !Char.IsNumber(str[i]) && Char.IsNumber(str[i + 1]))
-                {
-                    result = result + " " + str[i + 1]; i++; continue;
-                }
-                else if (i == 0)
-                {
-                    result = result + Char.ToUpper(str[i]);
-                }
-                else if (Char.IsLetter(str[i]))
-                    result = result + Char.ToLower(str[i]);
-                else if (Char.IsNumber(str[i]))
-                    result = result + str[i];
+            // replace white spaces with undescore, then replace all invalid chars with empty string
+            var pascalCase = invalidCharsRgx.Replace(whiteSpace.Replace(str, "_"), string.Empty)
+                // split by underscores
+                .Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries)
+                // set first letter to uppercase
+                .Select(w => startsWithLowerCaseChar.Replace(w, m => m.Value.ToUpper()))
+                // replace second and all following upper case letters to lower if there is no next lower (ABC -> Abc)
+                .Select(w => firstCharFollowedByUpperCasesOnly.Replace(w, m => m.Value.ToLower()))
+                // set upper case the first lower case following a number (Ab9cd -> Ab9Cd)
+                .Select(w => lowerCaseNextToNumber.Replace(w, m => m.Value.ToUpper()))
+                // lower second and next upper case letters except the last if it follows by any lower (ABcDEf -> AbcDef)
+                .Select(w => upperCaseInside.Replace(w, m => m.Value.ToLower()));
 
-            }
-            // Remove all space 
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (!Char.IsLetter(str[i]) && !Char.IsLetter(str[i]))
-                    str = str.Remove(i, 1);
-            }
-            result += Path.GetExtension(oldName);
+            return string.Concat(pascalCase) + Path.GetExtension(oldName);
 
-            return result;
         }
         override public Rule Create(Arguments args)
+        {
+            return new PascalCase();
+        }
+        override public Rule Clone()
         {
             return new PascalCase();
         }

@@ -15,19 +15,18 @@ namespace ProjectBatchName
             string str = Path.GetFileNameWithoutExtension(oldName);
             string extension = Path.ChangeExtension(Path.GetExtension(oldName), ext);
             str += extension;
-            return str;
-            //return "";
-            //File file = new File(str); 
-            //if (FileLoadException(file)) {
-            //    return null;
-            //} else {
-            //    return str;
-            //}
+            if (str.Length <= 255)
+                return str;
+            return "|";
         }
         override public Rule Create(Arguments args)
         {
             Argument_1 arg = (Argument_1)args;
             return new ChangeExtension() { ext = arg.arg1 };
+        }
+        override public Rule Clone()
+        {
+            return new ChangeExtension();
         }
     }
 }

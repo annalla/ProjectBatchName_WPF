@@ -9,6 +9,7 @@ namespace ProjectBatchName
     {
         abstract public String Rename(String oldName);
         abstract public Rule Create(Arguments args);
+        abstract public Rule Clone();
 
     }
 }

@@ -7,7 +7,7 @@ namespace ProjectBatchName
 {
     public class AddCounter : Rule
     {
-
+        public string name { get => "counter"; }
         public int startValue { get; set; }
         public int steps { get; set; }
         public int numberOfDigit { get; set; }
@@ -21,12 +21,19 @@ namespace ProjectBatchName
                 counter = "0" + counter;
             }
             this.startValue += this.steps;
-            return str + "(" +counter + ")" + Path.GetExtension(oldName);
+            string result = str + "(" +counter + ")" + Path.GetExtension(oldName);
+            if (result.Length <= 255)
+                return result;
+            return "|";
         }
         override public Rule Create(Arguments args)
         {
             Argument_3 arg = (Argument_3)args;
             return new AddCounter() { startValue = arg.arg1, steps = arg.arg2, numberOfDigit = arg.arg3 };
+        }
+        override public Rule Clone()
+        {
+            return new AddCounter();
         }
     }
 }

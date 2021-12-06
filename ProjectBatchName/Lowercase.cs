@@ -7,22 +7,22 @@ namespace ProjectBatchName
 {
     public class Lowercase : Rule
     {
+        public string name { get => "lowercase"; }
         public Lowercase() { }
         override public String Rename(String oldName)
         {
             string str = Path.GetFileNameWithoutExtension(oldName);
-
-            // Remove all space 
-            /*for (int i = 0; i < str.Length; i++)
-            {
-                if (!Char.IsLetter(str[i]) && !Char.IsLetter(str[i]))
-                    str = str.Remove(i, 1);
-            }*/
             str = str.Replace(" ", String.Empty);
-
-            return str.ToLower() + Path.GetExtension(oldName);
+            string result = str.ToLower() + Path.GetExtension(oldName);
+            if (result.Length <= 255)
+                return result;
+            return "|";
         }
         override public Rule Create(Arguments args)
+        {
+            return new Lowercase();
+        }
+        override public Rule Clone()
         {
             return new Lowercase();
         }

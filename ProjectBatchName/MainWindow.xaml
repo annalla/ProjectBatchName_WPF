@@ -103,9 +103,10 @@
                             </ListView.ItemContainerStyle>
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Name" Width="400" DisplayMemberBinding="{Binding name}"/>
-                                    <GridViewColumn Header="Preview" Width="450" DisplayMemberBinding="{Binding newName}"/>
-                                    <GridViewColumn Header="Status" Width="200" DisplayMemberBinding="{Binding status}"/>
+                                    <GridViewColumn Header="Name" Width="260" DisplayMemberBinding="{Binding name}"/>
+                                    <GridViewColumn Header="Preview" Width="260" DisplayMemberBinding="{Binding newName}"/>
+                                    <GridViewColumn Header="Path" Width="450" DisplayMemberBinding="{Binding dir}"/>
+                                    <GridViewColumn Header="Status" Width="100" DisplayMemberBinding="{Binding status}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -185,10 +186,10 @@
                     </GroupBox.Header>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+                            <Button Click="savePreset" Background="{x:Null}" BorderBrush="{x:Null}">
                                 <materialDesign:PackIcon Kind="ContentSaveCheck" Foreground="Black"/>
                             </Button>
-                            <Button  Background="{x:Null}" BorderBrush="{x:Null}">
+                            <Button Click="deleteOneSetOfRule"  Background="{x:Null}" BorderBrush="{x:Null}">
                                 <materialDesign:PackIcon Kind="DeleteForever" Foreground="Black"/>
                             </Button>
                             <ComboBox Width="300">

@@ -22,6 +22,8 @@ namespace ProjectBatchName
             sampleRules.Add("pascalcase", new PascalCase());
             sampleRules.Add("lowercase", new Lowercase());
             sampleRules.Add("replace",new Replace());
+            sampleRules.Add("duplicate", new DuplicateCase());
+
         }
         public Rule createRule(string strType, Arguments args)
         {
