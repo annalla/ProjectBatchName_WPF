@@ -19,20 +19,73 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Text.RegularExpressions;
 using System.Collections;
+using System.Collections.ObjectModel;
 //using System.Windows.Shapes;
 
 
 
 namespace ProjectBatchName
 {
+    public class Item
+    {
+        public string Name { get; set; }
+        public Item(string name)
+        {
+            this.Name = name;
+        }
+    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        //dùng cho drop & drag list 
+        private Point _dragStartPoint;
+
+        private T FindVisualParent<T>(DependencyObject child)
+            where T : DependencyObject
+        {
+            var parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null)
+                return null;
+            T parent = parentObject as T;
+            if (parent != null)
+                return parent;
+            return FindVisualParent<T>(parentObject);
+        }
+
+        private IList<Item> _items = new ObservableCollection<Item>();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _items.Add(new Item("AddCounter"));
+            _items.Add(new Item("AddSuffix"));
+            _items.Add(new Item("AddPrefix"));
+            _items.Add(new Item("ChangeExtension"));
+            _items.Add(new Item("RemoveAllSpace"));
+            _items.Add(new Item("PascalCase"));
+            _items.Add(new Item("Lowercase"));
+            _items.Add(new Item("Replace"));
+            _items.Add(new Item("DuplicateCase"));
+
+            listBoxOderRule.DisplayMemberPath = "Name";
+            listBoxOderRule.ItemsSource = _items;
+
+            listBoxOderRule.PreviewMouseMove += ListBox_PreviewMouseMove;
+
+            var style = new Style(typeof(ListBoxItem));
+            style.Setters.Add(new Setter(ListBoxItem.AllowDropProperty, true));
+            style.Setters.Add(
+                new EventSetter(
+                    ListBoxItem.PreviewMouseLeftButtonDownEvent,
+                    new MouseButtonEventHandler(ListBoxItem_PreviewMouseLeftButtonDown)));
+            style.Setters.Add(
+                    new EventSetter(
+                        ListBoxItem.DropEvent,
+                        new DragEventHandler(ListBoxItem_Drop)));
+            listBoxOderRule.ItemContainerStyle = style;
         }
         BindingList<TargetInfor> targets = new BindingList<TargetInfor>();
         List<Rule> actions = new List<Rule>();
@@ -561,5 +614,60 @@ namespace ProjectBatchName
         {
 
         }
+
+        ///<sumary>
+        ///dùng cho kéo thả listboxorderrule
+        ///</summary>
+        private void ListBox_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            Point point = e.GetPosition(null);
+            Vector diff = _dragStartPoint - point;
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                    Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
+            {
+                var lb = sender as ListBox;
+                var lbi = FindVisualParent<ListBoxItem>(((DependencyObject)e.OriginalSource));
+                if (lbi != null)
+                {
+                    DragDrop.DoDragDrop(lbi, lbi.DataContext, DragDropEffects.Move);
+                }
+            }
+        }
+        private void ListBoxItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _dragStartPoint = e.GetPosition(null);
+        }
+        private void ListBoxItem_Drop(object sender, DragEventArgs e)
+        {
+            if (sender is ListBoxItem)
+            {
+                var source = e.Data.GetData(typeof(Item)) as Item;
+                var target = ((ListBoxItem)(sender)).DataContext as Item;
+
+                int sourceIndex = listBoxOderRule.Items.IndexOf(source);
+                int targetIndex = listBoxOderRule.Items.IndexOf(target);
+
+                Move(source, sourceIndex, targetIndex);
+            }
+        }
+        private void Move(Item source, int sourceIndex, int targetIndex)
+        {
+            if (sourceIndex < targetIndex)
+            {
+                _items.Insert(targetIndex + 1, source);
+                _items.RemoveAt(sourceIndex);
+            }
+            else
+            {
+                int removeIndex = sourceIndex + 1;
+                if (_items.Count + 1 > removeIndex)
+                {
+                    _items.Insert(targetIndex, source);
+                    _items.RemoveAt(removeIndex);
+                }
+            }
+        }
+
     }
 }

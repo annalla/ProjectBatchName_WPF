@@ -177,7 +177,15 @@
 
             </StackPanel>
             <StackPanel Width="180">
+                <GroupBox FontWeight="Bold">
+                    <GroupBox.Header>
+                        Order rule
+                    </GroupBox.Header>
+                    <StackPanel>
+                        <ListBox x:Name="listBoxOderRule"/>
+                    </StackPanel>
 
+                </GroupBox>
             </StackPanel>
             <StackPanel>
                 <GroupBox FontWeight="Bold">
