@@ -7,7 +7,7 @@ namespace ProjectBatchName
 {
     public class Lowercase : Rule
     {
-        public string name { get => "lowercase"; }
+        public string name { get => "Lowercase"; }
         public Lowercase() { }
         override public String Rename(String oldName)
         {

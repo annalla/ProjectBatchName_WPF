@@ -64,11 +64,9 @@ namespace ProjectBatchName
             _items.Add(new Item("AddSuffix"));
             _items.Add(new Item("AddPrefix"));
             _items.Add(new Item("ChangeExtension"));
-            _items.Add(new Item("RemoveAllSpace"));
             _items.Add(new Item("PascalCase"));
             _items.Add(new Item("Lowercase"));
             _items.Add(new Item("Replace"));
-            _items.Add(new Item("DuplicateCase"));
 
             listBoxOderRule.DisplayMemberPath = "Name";
             listBoxOderRule.ItemsSource = _items;
@@ -309,7 +307,7 @@ namespace ProjectBatchName
                         {
                             if (duplicate!=0)
                             {
-                                Rule actionDuplicate = ruleFactory.createRule("duplicate", new Argument_1 { arg1 = duplicate.ToString() });
+                                Rule actionDuplicate = ruleFactory.createRule("Duplicate", new Argument_1 { arg1 = duplicate.ToString() });
                                 response = actionDuplicate.Rename(response);
                             }
                             Directory.Move(targets[i].dir + targets[i].name, targets[i].dir + response);
@@ -419,7 +417,7 @@ namespace ProjectBatchName
                 MessageBox.Show("Add Counter: Start Value or Number Of Digits or Steps is not an integer!!", "Warning");
                 return false;
             }
-            actions.Add(ruleFactory.createRule("counter", new Argument_3 { arg1 = Int32.Parse(startValueString), arg2 = Int32.Parse(stepString), arg3 = Int32.Parse(numString) }));
+            actions.Add(ruleFactory.createRule("AddCounter", new Argument_3 { arg1 = Int32.Parse(startValueString), arg2 = Int32.Parse(stepString), arg3 = Int32.Parse(numString) }));
             return true;
         }
 
@@ -436,7 +434,7 @@ namespace ProjectBatchName
                 MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
                 return false;
             }
-            actions.Add(ruleFactory.createRule("suffix", new Argument_1 { arg1 = _sufixText }));
+            actions.Add(ruleFactory.createRule("AddSuffix", new Argument_1 { arg1 = _sufixText }));
             return true;
         }
 
@@ -454,7 +452,7 @@ namespace ProjectBatchName
                 MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
                 return false;
             }
-            actions.Add(ruleFactory.createRule("prefix", new Argument_1 { arg1 = _prefixText }));
+            actions.Add(ruleFactory.createRule("AddPrefix", new Argument_1 { arg1 = _prefixText }));
             return true;
         }
 
@@ -473,7 +471,7 @@ namespace ProjectBatchName
                 MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
                 return false;
             }
-            actions.Add(ruleFactory.createRule("replace", new Argument_2 { arg1 = _oldReplaceText, arg2 = _newReplaceText }));
+            actions.Add(ruleFactory.createRule("Replace", new Argument_2 { arg1 = _oldReplaceText, arg2 = _newReplaceText }));
             return true;
         }
 
@@ -491,18 +489,18 @@ namespace ProjectBatchName
                 MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
                 return false;
             }
-            actions.Add(ruleFactory.createRule("ext", new Argument_1 { arg1 = _extentionText }));
+            actions.Add(ruleFactory.createRule("ChangeExtention", new Argument_1 { arg1 = _extentionText }));
             return true;
         }
 
         private void handleLowCaseRemoveSpacesRule()
         {
-            actions.Add(ruleFactory.createRule("lowercase", new Arguments { }));
+            actions.Add(ruleFactory.createRule("Lowercase", new Arguments { }));
         }
 
         private void handlePascalCaseRule()
         {
-            actions.Add(ruleFactory.createRule("pascalcase", new Arguments { }));
+            actions.Add(ruleFactory.createRule("PascalCase", new Arguments { }));
         }
 
         /// <summary>
@@ -564,7 +562,7 @@ namespace ProjectBatchName
                     int duplicate = CheckDuplicate(i, targets[i].dir + response);
                     if (duplicate != 0)
                     {
-                        Rule actionDuplicate = ruleFactory.createRule("duplicate", new Argument_1 { arg1 = duplicate.ToString() });
+                        Rule actionDuplicate = ruleFactory.createRule("Duplicate", new Argument_1 { arg1 = duplicate.ToString() });
                         response = actionDuplicate.Rename(response);
                     }
                     targets[i].newName = response;

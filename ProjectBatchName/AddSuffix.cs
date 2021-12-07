@@ -7,7 +7,7 @@ namespace ProjectBatchName
 {
     public class AddSuffix : Rule
     {
-        public string name { get => "suffix"; }
+        public string name { get => "AddSuffix"; }
         public String suffix { get; set; }
         public AddSuffix() { }
         override public String Rename(String oldName)

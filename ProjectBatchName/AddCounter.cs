@@ -7,7 +7,7 @@ namespace ProjectBatchName
 {
     public class AddCounter : Rule
     {
-        public string name { get => "counter"; }
+        public string name { get => "AddCounter"; }
         public int startValue { get; set; }
         public int steps { get; set; }
         public int numberOfDigit { get; set; }

@@ -9,7 +9,7 @@ namespace ProjectBatchName
 {
     public class PascalCase : Rule
     {
-        public string name { get => "pascalcase"; }
+        public string name { get => "PascalCase"; }
         public PascalCase() { }
         override public String Rename(String oldName)
         {

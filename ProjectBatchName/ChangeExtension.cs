@@ -7,6 +7,8 @@ namespace ProjectBatchName
 {
     public class ChangeExtension : Rule
     {
+        public string name { get => "ChangeExtension"; }
+
         public String ext { get; set; }
         public ChangeExtension() { }
         override public String Rename(String oldName)

@@ -7,7 +7,7 @@ namespace ProjectBatchName
 {
     public class Replace : Rule
     {
-        public string name { get => "replace"; }
+        public string name { get => "Replace"; }
         public String oldRep { get; set; }
         public String newRep { get; set; }
         override public String Rename(String oldName)

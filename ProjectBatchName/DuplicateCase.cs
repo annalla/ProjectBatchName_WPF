@@ -7,7 +7,7 @@ namespace ProjectBatchName
 {
     class DuplicateCase:Rule
     {
-        public string name { get => "duplicate"; }
+        public string name { get => "Duplicate"; }
         public int start { get; set; }
         public DuplicateCase() { }
         override public String Rename(String oldName)

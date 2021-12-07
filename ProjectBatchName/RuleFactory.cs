@@ -14,15 +14,15 @@ namespace ProjectBatchName
         static void initRule()
         {
             sampleRules.Clear();
-            sampleRules.Add("counter", new AddCounter());
-            sampleRules.Add("suffix", new AddSuffix());
-            sampleRules.Add("prefix", new AddPrefix());
-            sampleRules.Add("ext", new ChangeExtension());
-            sampleRules.Add("remove", new RemoveAllSpace());
-            sampleRules.Add("pascalcase", new PascalCase());
-            sampleRules.Add("lowercase", new Lowercase());
-            sampleRules.Add("replace",new Replace());
-            sampleRules.Add("duplicate", new DuplicateCase());
+            sampleRules.Add("AddCounter", new AddCounter());
+            sampleRules.Add("AddSuffix", new AddSuffix());
+            sampleRules.Add("AddPrefix", new AddPrefix());
+            sampleRules.Add("ChangeExtension", new ChangeExtension());
+            sampleRules.Add("Remove", new RemoveAllSpace());
+            sampleRules.Add("PascalCase", new PascalCase());
+            sampleRules.Add("Lowercase", new Lowercase());
+            sampleRules.Add("Replace",new Replace());
+            sampleRules.Add("Duplicate", new DuplicateCase());
 
         }
         public Rule createRule(string strType, Arguments args)
