@@ -176,6 +176,16 @@ namespace ProjectBatchName
         private void window_loaded(object sender, RoutedEventArgs e)
         {
             ruleFactory = new RuleFactory();
+            DirectoryInfo presetDir = new DirectoryInfo(@".\presets");
+            string[] allfiles = Directory.GetFileSystemEntries(@".\presets");
+            foreach (string sFileName in allfiles)
+            {
+                //files
+                if (Path.GetExtension(sFileName) != "")
+                {
+                    cmbPreset.Items.Add(Path.GetFileName(sFileName));
+                }
+            }
             //dataListViewCurrent.ItemsSource = targets;
         }
         /// <summary>
@@ -600,9 +610,165 @@ namespace ProjectBatchName
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void savePreset(object sender, RoutedEventArgs e)
-        {
+        {   
+            string timeNow = DateTime.Now.ToString("yyyy-MM-dd h_mm_ss tt");
+            string presetContent = createPresetContent();
+            System.IO.File.WriteAllText(@".\presets\" + timeNow + ".bin", presetContent);
+            cmbPreset.Items.Add(timeNow);
 
         }
+        private string createPresetContent()
+        {
+            string presetContent = "";
+            string option = "";
+
+            if (AddExtention.IsChecked == true && extentionText.Text.CompareTo("") != 0 )
+            {
+                presetContent += "ChangeExtension| TRUE|" + extentionText.Text;
+            }
+            else
+            {
+                presetContent += "ChangeExtension| FALSE|";
+            }
+
+            presetContent += "\r\n";
+            if (AddReplace.IsChecked == true && oldReplaceText.Text.CompareTo("")!=0 && newReplaceText.Text.CompareTo("") != 0)
+            {
+                presetContent += "Replace|TRUE|" + oldReplaceText.Text + "|" + newReplaceText.Text + "|";
+            }
+            else
+            {
+                presetContent += "Replace|FALSE|";
+            }
+
+            presetContent += "\r\n";
+            if (AddCounterBox.IsChecked == true && StartValueCounter.Text.CompareTo("") != 0 
+                && StepCounter.Text.CompareTo("") != 0 && NumberDigitCounter.Text.CompareTo("") != 0)
+            {
+                presetContent += "AddCounter|TRUE|" + StartValueCounter.Text + "|" + StepCounter.Text + "|" + NumberDigitCounter.Text;
+            }
+            else
+            {
+                presetContent += "AddCounter|FALSE|";
+            }
+
+            presetContent += "\r\n";
+            if (AddSuffix.IsChecked == true && sufixText.Text.CompareTo("") != 0)
+            {
+                presetContent += "AddSuffix|TRUE|" + sufixText.Text;
+            }
+            else
+            {
+                presetContent += "AddSuffix|FALSE|";
+            }
+
+            presetContent += "\r\n";
+            if (AddPrefix.IsChecked == true && prefixText.Text.CompareTo("") != 0)
+            {
+                presetContent += "AddPrefix|TRUE|" + prefixText.Text;
+            }
+            else
+            {
+                presetContent += "AddPrefix|FALSE|";
+            }
+
+            presetContent += "\r\n";
+            if (LowCaseRemoveSpaces.IsChecked == true)
+            {
+                presetContent += "Lowercase|TRUE|" ;
+            }
+            else
+            {
+                presetContent += "Lowercase|FALSE|";
+            }
+
+            presetContent += "\r\n";
+            if (PascalCase.IsChecked == true)
+            {
+                presetContent += "PascalCase|TRUE|";
+            }
+            else
+            {
+                presetContent += "PascalCase|FALSE|";
+            }
+
+            return presetContent;
+        }
+
+        private void applyPresetToRename(string pathFile)
+        {
+            string[] lines = File.ReadAllLines(pathFile);
+            foreach (string line in lines)
+            {
+                string[] pieces = line.Split('|');
+                switch (pieces[0])
+                {
+                    case "Replace":
+                        if (pieces[1] == "TRUE")
+                        {
+                            AddReplace.IsChecked = true;
+                            oldReplaceText.Text = pieces[2];
+                            newReplaceText.Text = pieces[3];
+                        }
+                        else
+                            AddReplace.IsChecked = false;
+                        break;
+                    case "ChangeExtension":
+                        if (pieces[1] == "TRUE")
+                        {
+                            AddExtention.IsChecked = true;
+                            extentionText.Text = pieces[2];
+                        }
+                        else
+                            AddExtention.IsChecked = false;
+                        break;
+                    case "AddCounter":
+                        if (pieces[1] == "TRUE")
+                        {
+                            AddCounterBox.IsChecked = true;
+                            StartValueCounter.Text = pieces[2];
+                            StepCounter.Text = pieces[3];
+                            NumberDigitCounter.Text = pieces[4];
+                            
+                        }
+                        else
+                            AddCounterBox.IsChecked = false;
+                        break;
+                    case "AddPrefix":
+                        if (pieces[1] == "TRUE")
+                        {
+                            AddPrefix.IsChecked = true;
+                            prefixText.Text = pieces[2];
+                        }
+                        else
+                            AddPrefix.IsChecked = false;
+                        break;
+                    case "AddSuffix":
+                        if (pieces[1] == "TRUE")
+                        {
+                            AddSuffix.IsChecked = true;
+                            sufixText.Text = pieces[2];
+                        }
+                        else
+                            AddSuffix.IsChecked = false; break;
+                    case "Lowercase":
+                        if (pieces[1] == "TRUE")
+                        {
+                            LowCaseRemoveSpaces.IsChecked = true;
+                        }
+                        else
+                            LowCaseRemoveSpaces.IsChecked = false; break;
+                    case "PascalCase":
+                        if (pieces[1] == "TRUE")
+                            PascalCase.IsChecked = true;
+                        else
+                            PascalCase.IsChecked = false; break;
+                    default: break;
+
+                }
+            }
+        }
+
         /// <summary>
         /// deleteOneSetOfRule
         /// </summary>
@@ -610,7 +776,14 @@ namespace ProjectBatchName
         /// <param name="e"></param>
         private void deleteOneSetOfRule(object sender, RoutedEventArgs e)
         {
-
+            var index = cmbPreset.SelectedItem;
+            var path = cmbPreset.SelectedValue;
+            if (index != null)
+            {
+                cmbPreset.Items.Remove(index);
+                File.Delete(path.ToString());
+                System.IO.File.Delete(@".\presets\" + path.ToString());
+            }
         }
 
         ///<sumary>
@@ -667,5 +840,13 @@ namespace ProjectBatchName
             }
         }
 
+     
+        private void choosePresets(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbPreset.SelectedItem != null)
+            {
+                applyPresetToRename(@".\presets\" + cmbPreset.SelectedValue.ToString());
+            }
+        }
     }
 }

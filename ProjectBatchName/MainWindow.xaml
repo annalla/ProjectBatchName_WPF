@@ -200,14 +200,14 @@
                             <Button Click="deleteOneSetOfRule"  Background="{x:Null}" BorderBrush="{x:Null}">
                                 <materialDesign:PackIcon Kind="DeleteForever" Foreground="Black"/>
                             </Button>
-                            <ComboBox Width="300">
+                            <ComboBox Name="cmbPreset" Width="300" SelectionChanged="choosePresets">
                             </ComboBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
                             <Label FontWeight="Bold" FontStyle="Normal" >
                                 Custom Name:
                             </Label>
-                            <TextBox Width="247">
+                            <TextBox x:Name="txtPresets" Width="247">
 
                             </TextBox>
                         </StackPanel>
