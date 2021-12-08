@@ -7,8 +7,12 @@ namespace ProjectBatchName
 {
     public class Lowercase : Rule
     {
-        public string name { get => "Lowercase"; }
+        override public String GetName() => "Lowercase";
         public Lowercase() { }
+        override public string ArgumentString()
+        {
+            return "";
+        }
         override public String Rename(String oldName)
         {
             string str = Path.GetFileNameWithoutExtension(oldName);

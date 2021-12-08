@@ -7,9 +7,14 @@ namespace ProjectBatchName
 {
     public class Replace : Rule
     {
-        public string name { get => "Replace"; }
+        override public String GetName()=>"Replace";
         public String oldRep { get; set; }
         public String newRep { get; set; }
+        override public string ArgumentString()
+        {
+            return oldRep + "|" + newRep;
+        }
+
         override public String Rename(String oldName)
         {
             //Replacing oldRep into space newRep

@@ -7,9 +7,13 @@ namespace ProjectBatchName
 {
     class DuplicateCase:Rule
     {
-        public string name { get => "Duplicate"; }
+        override public String GetName() => "Duplicate";
         public int start { get; set; }
         public DuplicateCase() { }
+        override public string ArgumentString()
+        {
+            return "";
+        }
         override public String Rename(String oldName)
         {
             string str = Path.GetFileNameWithoutExtension(oldName);

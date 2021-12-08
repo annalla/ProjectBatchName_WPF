@@ -7,8 +7,12 @@ namespace ProjectBatchName
 {
     public class RemoveAllSpace : Rule
     {
-        public string name { get => "Remove"; }
+        override public String GetName() => "Remove";
 
+        override public string ArgumentString()
+        {
+            return "";
+        }
         override public String Rename(String oldName)
         {
             string str = Path.GetFileNameWithoutExtension(oldName);

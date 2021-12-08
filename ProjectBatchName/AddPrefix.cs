@@ -7,9 +7,13 @@ namespace ProjectBatchName
 {
     public class AddPrefix : Rule
     {
-        public string name { get => "AddPrefix"; }
-        public String prefix { get; set; }
+        override public String GetName() => "AddPrefix";
+        public string prefix { get; set; }
         public AddPrefix() { }
+        override public string ArgumentString()
+        {
+            return prefix;
+        }
         override public String Rename(String oldName)
         {
             string str = Path.GetFileNameWithoutExtension(oldName);

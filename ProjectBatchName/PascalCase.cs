@@ -9,8 +9,12 @@ namespace ProjectBatchName
 {
     public class PascalCase : Rule
     {
-        public string name { get => "PascalCase"; }
+        override public String GetName() => "PascalCase";
         public PascalCase() { }
+        override public string ArgumentString()
+        {
+            return "";
+        }
         override public String Rename(String oldName)
         {
             string str = Path.GetFileNameWithoutExtension(oldName);

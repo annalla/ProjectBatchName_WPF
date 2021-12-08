@@ -7,11 +7,15 @@ namespace ProjectBatchName
 {
     public class AddCounter : Rule
     {
-        public string name { get => "AddCounter"; }
+        override public String GetName() => "AddCounter";
         public int startValue { get; set; }
         public int steps { get; set; }
         public int numberOfDigit { get; set; }
         public AddCounter() { }
+        override public string ArgumentString()
+        {
+            return startValue.ToString() + "|" + steps.ToString()+"|"+numberOfDigit;
+        }
         override public String Rename(String oldName)
         {
             string str = Path.GetFileNameWithoutExtension(oldName);

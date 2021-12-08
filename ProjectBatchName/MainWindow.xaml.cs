@@ -55,10 +55,19 @@ namespace ProjectBatchName
         }
 
         private IList<Item> _items = new ObservableCollection<Item>();
-
+        private Dictionary<string,int> dictRule = new Dictionary<string,int>();
         public MainWindow()
         {
             InitializeComponent();
+            
+            dictRule.Add("AddCounter", 0);
+            dictRule.Add("AddSuffix", 0);
+            dictRule.Add("AddPrefix", 0);
+            dictRule.Add("ChangeExtension", 0);
+            dictRule.Add("PascalCase", 0);
+            dictRule.Add("Lowercase", 0);
+            dictRule.Add("Replace", 0);
+
 
             _items.Add(new Item("AddCounter"));
             _items.Add(new Item("AddSuffix"));
@@ -85,9 +94,9 @@ namespace ProjectBatchName
                         new DragEventHandler(ListBoxItem_Drop)));
             listBoxOderRule.ItemContainerStyle = style;
         }
+
         BindingList<TargetInfor> targets = new BindingList<TargetInfor>();
         List<Rule> actions = new List<Rule>();
-        List<List<Rule>> presets = new List<List<Rule>>();
         RuleFactory ruleFactory;
 
         private void btnExit(object sender, RoutedEventArgs e)
@@ -183,7 +192,7 @@ namespace ProjectBatchName
                 //files
                 if (Path.GetExtension(sFileName) != "")
                 {
-                    cmbPreset.Items.Add(Path.GetFileName(sFileName));
+                    cmbPreset.Items.Add(Path.GetFileName(sFileName.Split(".bin")[0]));
                 }
             }
             //dataListViewCurrent.ItemsSource = targets;
@@ -262,49 +271,8 @@ namespace ProjectBatchName
         /// <param name="e"></param>
         private void BatchNameClick(object sender, RoutedEventArgs e)
         {
-            if (actions.Count != 0)
-            {
-                actions.Clear();
-            }
-            if (AddCounterBox.IsChecked == true)
-            {
-                if (!handleAddCounterRule())
-                    return ;
-            }
-            //Thêm hậu tố
-            if (AddSuffix.IsChecked == true)
-            {
-                if (!handleAddSuffixRule())
-                    return ;
-            }
-            //Thêm tiền tố
-            if (AddPrefix.IsChecked == true)
-            {
-                if (!handleAddPrefixRule())
-                    return ;
-            }
-            //replace
-            if (AddReplace.IsChecked == true)
-            {
-                if (!handleAddReplaceRule())
-                    return ;
-            }
-            //extention
-            if (AddExtention.IsChecked == true)
-            {
-                if (!handleAddExtentionRule())
-                    return ;
-            }
-            //Low Case & Remove Spaces
-            if (LowCaseRemoveSpaces.IsChecked == true)
-            {
-                handleLowCaseRemoveSpacesRule();
-            }
-            //Pascal Case
-            if (PascalCase.IsChecked == true)
-            {
-                handlePascalCaseRule();
-            }
+            if (!setAction()) return;
+
             for (int i = 0; i < targets.Count; i++)
             {
                 if (CheckTarget(targets[i]))
@@ -489,7 +457,7 @@ namespace ProjectBatchName
         {
             string _extentionText = extentionText.Text;
 
-            if (_extentionText == null)
+            if (_extentionText == null||_extentionText=="")
             {
                 MessageBox.Show("Extension is empty!!", "Warning");
                 return false;
@@ -499,7 +467,7 @@ namespace ProjectBatchName
                 MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
                 return false;
             }
-            actions.Add(ruleFactory.createRule("ChangeExtention", new Argument_1 { arg1 = _extentionText }));
+            actions.Add(ruleFactory.createRule("ChangeExtension", new Argument_1 { arg1 = _extentionText }));
             return true;
         }
 
@@ -520,50 +488,7 @@ namespace ProjectBatchName
         /// <param name="e"></param>
         private void HandlePreview(object sender, RoutedEventArgs e)
         {
-            if (actions.Count != 0)
-            {
-                actions.Clear();
-            }
-            //Thêm bộ đếm
-            if (AddCounterBox.IsChecked == true)
-            {
-                if (!handleAddCounterRule()) return;
-            }
-            //Thêm hậu tố
-            if (AddSuffix.IsChecked == true)
-            {
-                if(!handleAddSuffixRule()) return;
-            }
-
-            //tiền tố
-            if (AddPrefix.IsChecked == true)
-            {
-                if (!handleAddPrefixRule())
-                    return;
-            }
-
-            //replace
-            if (AddReplace.IsChecked == true)
-            {
-                if (!handleAddReplaceRule())
-                    return;
-            }
-            //extention
-            if (AddExtention.IsChecked == true)
-            {
-                if (!handleAddExtentionRule())
-                    return ;
-            }
-            //Low Case & Remove Spaces
-            if (LowCaseRemoveSpaces.IsChecked == true)
-            {
-                handleLowCaseRemoveSpacesRule();
-            }
-            //Pascal Case
-            if (PascalCase.IsChecked == true)
-            {
-                handlePascalCaseRule();
-            }
+            if (!setAction()) return;
             for (int i = 0; i < targets.Count; i++)
             {
                 if (CheckTarget(targets[i]))
@@ -581,8 +506,94 @@ namespace ProjectBatchName
 
         }
 
+        private bool setAction()
+        {
+            if (actions.Count != 0)
+            {
+                actions.Clear();
+            }
+            if (AddCounterBox.IsChecked == true)
+            {
+                if (!handleAddCounterRule())
+                    return false;
+            }
+            //Thêm hậu tố
+            if (AddSuffix.IsChecked == true)
+            {
+                if (!handleAddSuffixRule())
+                    return false;
+            }
+            //Thêm tiền tố
+            if (AddPrefix.IsChecked == true)
+            {
+                if (!handleAddPrefixRule())
+                    return false;
+
+            }
+            //replace
+            if (AddReplace.IsChecked == true)
+            {
+                if (!handleAddReplaceRule())
+                    return false;
+            }
+            //extention
+            if (AddExtention.IsChecked == true)
+            {
+                if (!handleAddExtentionRule())
+                    return false;
+            }
+            //Low Case & Remove Spaces
+            if (LowCaseRemoveSpaces.IsChecked == true)
+            {
+                handleLowCaseRemoveSpacesRule();
+            }
+            //Pascal Case
+            if (PascalCase.IsChecked == true)
+            {
+                handlePascalCaseRule();
+            }
+            List<Rule> orderedActions = new List<Rule>();
+            for (int i = 0; i < _items.Count; i++)
+            {
+                foreach (Rule r in actions)
+                {
+                    if (r.GetName() == _items[i].Name)
+                    {
+                        orderedActions.Add(r);
+                        break;
+                    }
+                }
+            }
+            if (actions.Count != 0)
+            {
+                actions.Clear();
+                actions = orderedActions;
+            }
+            return true;
+        }
+
         private bool CheckTarget(TargetInfor targetInfor)
         {
+            if (FileOnlyRadioBtn.IsChecked == true)
+            {
+                if (targetInfor.extension == "")
+                {
+                    return false;
+                }
+                return true;
+            }
+            if (FolderOnlyRadioBtn.IsChecked == true)
+            {
+                if (targetInfor.extension == "")
+                {
+                    return true;
+                }
+                return false;
+            }
+            if (SelectedOnlyRadioBtn.IsChecked == true)
+            {
+
+            }
             return true;
         }
 
@@ -613,6 +624,10 @@ namespace ProjectBatchName
         {   
             string timeNow = DateTime.Now.ToString("yyyy-MM-dd h_mm_ss tt");
             string presetContent = createPresetContent();
+            if (presetContent == "")
+            {
+                return;
+            }
             System.IO.File.WriteAllText(@".\presets\" + timeNow + ".bin", presetContent);
             cmbPreset.Items.Add(timeNow);
 
@@ -620,87 +635,42 @@ namespace ProjectBatchName
         private string createPresetContent()
         {
             string presetContent = "";
-            string option = "";
+            if (!setAction()) { return presetContent; }
+            for (int i = 0; i < actions.Count; i++)
+            {
+                presetContent += actions[i].GetName() + "|TRUE|" + actions[i].ArgumentString();
+                presetContent += "\r\n";
+                dictRule[actions[i].GetName()] = 1;
 
-            if (AddExtention.IsChecked == true && extentionText.Text.CompareTo("") != 0 )
-            {
-                presetContent += "ChangeExtension| TRUE|" + extentionText.Text;
             }
-            else
+            foreach (KeyValuePair<string, int> kvp in dictRule)
             {
-                presetContent += "ChangeExtension| FALSE|";
+                if (kvp.Value == 0)
+                {
+                    presetContent += kvp.Key + "|FALSE|";
+                    presetContent += "\r\n";
+                }
             }
-
-            presetContent += "\r\n";
-            if (AddReplace.IsChecked == true && oldReplaceText.Text.CompareTo("")!=0 && newReplaceText.Text.CompareTo("") != 0)
-            {
-                presetContent += "Replace|TRUE|" + oldReplaceText.Text + "|" + newReplaceText.Text + "|";
-            }
-            else
-            {
-                presetContent += "Replace|FALSE|";
-            }
-
-            presetContent += "\r\n";
-            if (AddCounterBox.IsChecked == true && StartValueCounter.Text.CompareTo("") != 0 
-                && StepCounter.Text.CompareTo("") != 0 && NumberDigitCounter.Text.CompareTo("") != 0)
-            {
-                presetContent += "AddCounter|TRUE|" + StartValueCounter.Text + "|" + StepCounter.Text + "|" + NumberDigitCounter.Text;
-            }
-            else
-            {
-                presetContent += "AddCounter|FALSE|";
-            }
-
-            presetContent += "\r\n";
-            if (AddSuffix.IsChecked == true && sufixText.Text.CompareTo("") != 0)
-            {
-                presetContent += "AddSuffix|TRUE|" + sufixText.Text;
-            }
-            else
-            {
-                presetContent += "AddSuffix|FALSE|";
-            }
-
-            presetContent += "\r\n";
-            if (AddPrefix.IsChecked == true && prefixText.Text.CompareTo("") != 0)
-            {
-                presetContent += "AddPrefix|TRUE|" + prefixText.Text;
-            }
-            else
-            {
-                presetContent += "AddPrefix|FALSE|";
-            }
-
-            presetContent += "\r\n";
-            if (LowCaseRemoveSpaces.IsChecked == true)
-            {
-                presetContent += "Lowercase|TRUE|" ;
-            }
-            else
-            {
-                presetContent += "Lowercase|FALSE|";
-            }
-
-            presetContent += "\r\n";
-            if (PascalCase.IsChecked == true)
-            {
-                presetContent += "PascalCase|TRUE|";
-            }
-            else
-            {
-                presetContent += "PascalCase|FALSE|";
-            }
-
+            resetDictRule();
             return presetContent;
+        }
+
+        private void resetDictRule()
+        {
+            for (int i = 0; i < actions.Count; i++)
+            {
+                dictRule[actions[i].GetName()] = 0;
+            }
         }
 
         private void applyPresetToRename(string pathFile)
         {
             string[] lines = File.ReadAllLines(pathFile);
+            _items.Clear();
             foreach (string line in lines)
             {
                 string[] pieces = line.Split('|');
+                _items.Add(new Item(pieces[0]));
                 switch (pieces[0])
                 {
                     case "Replace":
@@ -711,7 +681,11 @@ namespace ProjectBatchName
                             newReplaceText.Text = pieces[3];
                         }
                         else
+                        {
                             AddReplace.IsChecked = false;
+                            oldReplaceText.Text = "";
+                            newReplaceText.Text = "";
+                        }
                         break;
                     case "ChangeExtension":
                         if (pieces[1] == "TRUE")
@@ -720,7 +694,10 @@ namespace ProjectBatchName
                             extentionText.Text = pieces[2];
                         }
                         else
+                        {
                             AddExtention.IsChecked = false;
+                            extentionText.Text = "";
+                        }
                         break;
                     case "AddCounter":
                         if (pieces[1] == "TRUE")
@@ -732,7 +709,12 @@ namespace ProjectBatchName
                             
                         }
                         else
+                        {
                             AddCounterBox.IsChecked = false;
+                            StartValueCounter.Text = "";
+                            StepCounter.Text = "";
+                            NumberDigitCounter.Text = "";
+                        }
                         break;
                     case "AddPrefix":
                         if (pieces[1] == "TRUE")
@@ -741,7 +723,10 @@ namespace ProjectBatchName
                             prefixText.Text = pieces[2];
                         }
                         else
+                        {
                             AddPrefix.IsChecked = false;
+                            prefixText.Text = "";
+                        }
                         break;
                     case "AddSuffix":
                         if (pieces[1] == "TRUE")
@@ -750,7 +735,11 @@ namespace ProjectBatchName
                             sufixText.Text = pieces[2];
                         }
                         else
-                            AddSuffix.IsChecked = false; break;
+                        {
+                            sufixText.Text = "";
+                            AddSuffix.IsChecked = false; 
+                        }
+                        break;
                     case "Lowercase":
                         if (pieces[1] == "TRUE")
                         {
@@ -845,7 +834,7 @@ namespace ProjectBatchName
         {
             if (cmbPreset.SelectedItem != null)
             {
-                applyPresetToRename(@".\presets\" + cmbPreset.SelectedValue.ToString());
+                applyPresetToRename(@".\presets\" + cmbPreset.SelectedValue.ToString() + ".bin");
             }
         }
     }

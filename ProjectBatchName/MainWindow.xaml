@@ -228,10 +228,10 @@
                                     <ColumnDefinition Width="150"></ColumnDefinition>
                                     <ColumnDefinition Width="100*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <RadioButton Content="Files only" Margin="5" Foreground="White" Grid.Column="0" Grid.Row="0"/>
-                                <RadioButton Content="Folders only"  Margin="5" Foreground="White" Grid.Column="0" Grid.Row="1"/>
-                                <RadioButton Content="Files and Folders"  Margin="5" Foreground="White" Grid.Column="1" Grid.Row="0"/>
-                                <RadioButton Content="Selected items only" IsChecked="True"  Margin="5" Foreground="White" Grid.Column="1" Grid.Row="1"/>
+                                <RadioButton Name"FileOnlyRadioBtn" Content="Files only" Margin="5" Foreground="White" Grid.Column="0" Grid.Row="0"/>
+                                <RadioButton Name"FolderOnlyRadioBtn" Content="Folders only"  Margin="5" Foreground="White" Grid.Column="0" Grid.Row="1"/>
+                                <RadioButton Name"FileAndFolderRadioBtn" Content="Files and Folders" IsChecked="True"  Margin="5" Foreground="White" Grid.Column="1" Grid.Row="0"/>
+                                <RadioButton Name"SelectedOnlyRadioBtn" Content="Selected items only"  Margin="5" Foreground="White" Grid.Column="1" Grid.Row="1"/>
                             </Grid>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="70 10 0 0">
