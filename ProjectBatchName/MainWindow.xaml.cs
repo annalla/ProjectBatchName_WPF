@@ -20,6 +20,7 @@ using System.Windows.Navigation;
 using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Security;
 //using System.Windows.Shapes;
 
 
@@ -56,10 +57,41 @@ namespace ProjectBatchName
 
         private IList<Item> _items = new ObservableCollection<Item>();
         private Dictionary<string,int> dictRule = new Dictionary<string,int>();
+
+        private string PresetHistore = "";
         public MainWindow()
         {
             InitializeComponent();
-            
+
+            //Load current size + position + preset choose
+            DirectoryInfo loadDir = new DirectoryInfo(@".\loaded");
+            try
+            {
+                // Determine whether the directory exists.
+                if (loadDir.Exists)
+                {
+                    // Indicate that the directory already exists.
+                    Console.WriteLine("That path exists already.");
+                    string loadFile = System.IO.File.ReadAllText(@".\loaded\loadCurrentSize.bin");
+                    string[] arrLoadFile = loadFile.Split('|');
+
+                    Application.Current.MainWindow.Height = Int32.Parse(arrLoadFile[0]);
+                    Application.Current.MainWindow.Width = Int32.Parse(arrLoadFile[1]);
+                    Application.Current.MainWindow.Left = Int32.Parse(arrLoadFile[2]);
+                    Application.Current.MainWindow.Top = Int32.Parse(arrLoadFile[3]);
+
+                    PresetHistore = arrLoadFile[4];
+                    return;
+                }
+                // Try to create the directory.
+                loadDir.Create();
+                Console.WriteLine("The directory was created successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("The process failed: {0}", ex.ToString());
+            }
+
             dictRule.Add("AddCounter", 0);
             dictRule.Add("AddSuffix", 0);
             dictRule.Add("AddPrefix", 0);
@@ -101,8 +133,11 @@ namespace ProjectBatchName
 
         private void btnExit(object sender, RoutedEventArgs e)
         {
+            //Save current size + current possition + current Preset
+            saveSizePositionPresetChoose();
             System.Windows.Application.Current.Shutdown();
         }
+
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
 
@@ -187,6 +222,7 @@ namespace ProjectBatchName
             ruleFactory = new RuleFactory();
             DirectoryInfo presetDir = new DirectoryInfo(@".\presets");
             string[] allfiles = Directory.GetFileSystemEntries(@".\presets");
+
             foreach (string sFileName in allfiles)
             {
                 //files
@@ -195,7 +231,9 @@ namespace ProjectBatchName
                     cmbPreset.Items.Add(Path.GetFileName(sFileName.Split(".bin")[0]));
                 }
             }
-            //dataListViewCurrent.ItemsSource = targets;
+
+            cmbPreset.SelectedValue = PresetHistore;
+
         }
         /// <summary>
         /// Add all files in Folder
@@ -843,6 +881,36 @@ namespace ProjectBatchName
             {
                 applyPresetToRename(@".\presets\" + cmbPreset.SelectedValue.ToString() + ".bin");
             }
+        }
+
+        ///<sumary>
+        ///Sử dụng để lưu là lấy lên khi load file exe
+        ///</summary>
+        private void saveSizePositionPresetChoose()
+        {
+            double heightCurrent = Application.Current.MainWindow.Height;
+            double widthCurrent = Application.Current.MainWindow.Width;
+            double leftCurrent = Application.Current.MainWindow.Left;
+            double topCurrent = Application.Current.MainWindow.Top;
+
+            string presetCurrent = null;
+            if (cmbPreset.SelectedItem != null)
+            {
+                presetCurrent = cmbPreset.SelectedItem+"";
+            }
+            try
+            {
+                System.IO.File.WriteAllText(@".\loaded\loadCurrentSize" + ".bin", heightCurrent + "|" + widthCurrent + "|" + leftCurrent + "|" + topCurrent + "|" + presetCurrent);
+            }
+            catch (SecurityException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+           
         }
     }
 }
