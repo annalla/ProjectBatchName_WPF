@@ -592,7 +592,14 @@ namespace ProjectBatchName
             }
             if (SelectedOnlyRadioBtn.IsChecked == true)
             {
-
+                foreach (TargetInfor target in dataListViewCurrent.SelectedItems)
+                {
+                    if (targetInfor.name == target.name)
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
             return true;
         }
