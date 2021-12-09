@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Security;
+using System.Xml;
 //using System.Windows.Shapes;
 
 
@@ -62,7 +63,7 @@ namespace ProjectBatchName
         public MainWindow()
         {
             InitializeComponent();
-
+            
             //Load current size + position + preset choose
             DirectoryInfo loadDir = new DirectoryInfo(@".\loaded");
             try
@@ -130,6 +131,8 @@ namespace ProjectBatchName
         BindingList<TargetInfor> targets = new BindingList<TargetInfor>();
         List<Rule> actions = new List<Rule>();
         RuleFactory ruleFactory;
+        List<String> listFileName = new List<string>();
+        List<String> listFilePath = new List<string>();
 
         private void btnExit(object sender, RoutedEventArgs e)
         {
@@ -172,12 +175,15 @@ namespace ProjectBatchName
                             targets.Remove(targets[i]);
                         }
                     }
+                    listFileName.Add(target.name+"\n");
+                    listFilePath.Add(target.dir + "\n");
                     targets.Add(target);
                     Debug.WriteLine(target.toString());
                     dataListViewCurrent.Items.Add(target);
                 }
-
             }
+
+            autoSaveCurrent(listFileName, listFilePath, createPresetContent());
         }
         /// <summary>
         /// Add multiple folders to targets and Show in List
@@ -210,29 +216,113 @@ namespace ProjectBatchName
                             targets.Remove(targets[i]);
                         }
                     }
+                    listFileName.Add(target.name + "\n");
+                    listFilePath.Add(target.dir + "\n");
                     targets.Add(target);
                     Debug.WriteLine(target.toString());
                     dataListViewCurrent.Items.Add(target);
                 }
             }
+
+            autoSaveCurrent(listFileName, listFilePath, createPresetContent());
         }
+
+        private void autoSaveCurrent(List<String> listFile,List<String> listPath, String listRule)
+        {
+
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            XmlWriter writer = XmlWriter.Create(@"AutoSave.xml", settings);
+
+            writer.WriteStartDocument();
+
+            writer.WriteComment("AutoSave");
+
+            writer.WriteStartElement("CurrentWorking");
+            writer.WriteStartElement("listFile");
+            /*writer.WriteAttributeString("ISBN", "0553212419");*/
+                for (int i = 0; i < listFile.Count; i++) {
+                    writer.WriteElementString("listFile", listFile[i]);
+                }
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("listPath");
+                for (int i = 0; i < listPath.Count; i++)
+                {
+                    writer.WriteElementString("listPath", listPath[i]);
+                }
+            writer.WriteEndElement();
+            writer.WriteStartElement("setRule");
+            writer.WriteElementString("setRule", listRule);
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Flush();
+            writer.Close();
+        }
+        /* private void timer1_Tick(object sender, EventArgs e)
+         {
+
+
+         }*/
 
         private void window_loaded(object sender, RoutedEventArgs e)
         {
-            ruleFactory = new RuleFactory();
-            DirectoryInfo presetDir = new DirectoryInfo(@".\presets");
-            string[] allfiles = Directory.GetFileSystemEntries(@".\presets");
-
-            foreach (string sFileName in allfiles)
+            XmlDocument docXML = new XmlDocument();
+            if (File.Exists(@"AutoSave.xml"))
             {
-                //files
-                if (Path.GetExtension(sFileName) != "")
+                docXML.Load(@"AutoSave.xml");
+                XmlNode root = docXML.DocumentElement;
+                XmlNode rules = root.SelectSingleNode("setRule");
+                XmlNode files = root.SelectSingleNode("listFile");
+                XmlNode paths = root.SelectSingleNode("listPath");
+                if (rules.InnerText != null)
                 {
-                    cmbPreset.Items.Add(Path.GetFileName(sFileName.Split(".bin")[0]));
+                    File.WriteAllText(@"AutoSave.txt", rules.InnerText);
+                    //load set of rule to UI
+                    applyPresetToRename(@"AutoSave.txt");
                 }
+                if (files.InnerText != null)
+                {
+                    File.WriteAllText(@"AutoSaveFile.txt", files.InnerText);
+                }
+                if (paths.InnerText != null)
+                {
+                    File.WriteAllText(@"AutoSavePath.txt", paths.InnerText);
+                }
+                String[] lineFile = File.ReadAllLines(@"AutoSaveFile.txt");
+                String[] linePath = File.ReadAllLines(@"AutoSavePath.txt");
+                File.ReadAllLines(@"AutoSavePath.txt");
+                for (int i = 0; i < lineFile.Length; i++)
+                {
+                    TargetInfor target = new TargetInfor
+                    {
+                        newName = "",
+                        status = "",
+                        name = lineFile[i],
+                        dir = linePath[i],
+                    };
+                    listFileName.Add(target.name + "\n");
+                    listFilePath.Add(target.dir + "\n");
+                    dataListViewCurrent.Items.Add(target);
+                }
+                autoSaveCurrent(listFileName, listFilePath, rules.InnerText);
+
             }
 
-            cmbPreset.SelectedValue = PresetHistore;
+            ruleFactory = new RuleFactory();
+                DirectoryInfo presetDir = new DirectoryInfo(@".\presets");
+                string[] allfiles = Directory.GetFileSystemEntries(@".\presets");
+
+                foreach (string sFileName in allfiles)
+                {
+                    //files
+                    if (Path.GetExtension(sFileName) != "")
+                    {
+                        cmbPreset.Items.Add(Path.GetFileName(sFileName.Split(".bin")[0]));
+                    }
+                }
+
+                cmbPreset.SelectedValue = PresetHistore;
 
         }
         /// <summary>
@@ -273,6 +363,8 @@ namespace ProjectBatchName
                                         targets.Remove(targets[i]);
                                     }
                                 }
+                                listFileName.Add(target.name + "\n");
+                                listFilePath.Add(target.dir + "\n");
                                 targets.Add(target);
                                 Debug.WriteLine(target.toString());
                                 dataListViewCurrent.Items.Add(target);
@@ -280,6 +372,8 @@ namespace ProjectBatchName
                         }
                 }
             }
+
+            autoSaveCurrent(listFileName, listFilePath, createPresetContent());
         }
         /// <summary>
         /// refresh all files and folders in CurrentNameList
@@ -911,6 +1005,16 @@ namespace ProjectBatchName
                 Console.WriteLine(ex);
             }
            
+        }
+        private void AutoSave(object sender, MouseEventArgs e)
+        {
+
+            System.Windows.Forms.Timer tmr = new System.Windows.Forms.Timer();
+            tmr.Interval = 5000;
+
+            tmr.Start();
+            autoSaveCurrent(listFileName, listFilePath, createPresetContent());
+            tmr.Stop();
         }
     }
 }

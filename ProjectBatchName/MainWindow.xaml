@@ -8,7 +8,7 @@
         xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
         xmlns:local="clr-namespace:ProjectBatchName"
         mc:Ignorable="d"
-        MinHeight="620" MinWidth="1120" WindowStartupLocation="CenterScreen" WindowStyle="None" Loaded="window_loaded">
+        MinHeight="620" MinWidth="1120" WindowStartupLocation="CenterScreen" WindowStyle="None" Loaded="window_loaded" MouseEnter="AutoSave" >
     <StackPanel>
         <Grid Height="60" VerticalAlignment="Top" Background="#1b4965">
             <TextBlock Text="Project Batch Name" Foreground="#bee9e8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="23" FontFamily="Champagne &amp; Limousines" FontWeight="Bold" />
