@@ -63,8 +63,22 @@ namespace ProjectBatchName
         public MainWindow()
         {
             InitializeComponent();
-            
+
+            initDictRule();
+
+            initListRuleOrder();
+          
+
+            listBoxOderRule.DisplayMemberPath = "Name";
+            listBoxOderRule.ItemsSource = _items;
+
+            LoadHistorySizeAndSelectedPreset();
             //Load current size + position + preset choose
+           
+        }
+
+        private void LoadHistorySizeAndSelectedPreset()
+        {
             DirectoryInfo loadDir = new DirectoryInfo(@".\loaded");
             try
             {
@@ -72,7 +86,7 @@ namespace ProjectBatchName
                 if (loadDir.Exists)
                 {
                     // Indicate that the directory already exists.
-                    Console.WriteLine("That path exists already.");
+                    Debug.WriteLine("That path exists already.");
                     string loadFile = System.IO.File.ReadAllText(@".\loaded\loadCurrentSize.bin");
                     string[] arrLoadFile = loadFile.Split('|');
 
@@ -82,26 +96,21 @@ namespace ProjectBatchName
                     Application.Current.MainWindow.Top = Int32.Parse(arrLoadFile[3]);
 
                     PresetHistore = arrLoadFile[4];
+                    cmbPreset.SelectedValue = PresetHistore;
                     return;
                 }
                 // Try to create the directory.
                 loadDir.Create();
-                Console.WriteLine("The directory was created successfully.");
+                Debug.WriteLine("The directory was created successfully.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("The process failed: {0}", ex.ToString());
+                Debug.WriteLine("The process failed: {0}", ex.ToString());
             }
+        }
 
-            dictRule.Add("AddCounter", 0);
-            dictRule.Add("AddSuffix", 0);
-            dictRule.Add("AddPrefix", 0);
-            dictRule.Add("ChangeExtension", 0);
-            dictRule.Add("PascalCase", 0);
-            dictRule.Add("Lowercase", 0);
-            dictRule.Add("Replace", 0);
-
-
+        private void initListRuleOrder()
+        {
             _items.Add(new Item("AddCounter"));
             _items.Add(new Item("AddSuffix"));
             _items.Add(new Item("AddPrefix"));
@@ -109,9 +118,6 @@ namespace ProjectBatchName
             _items.Add(new Item("PascalCase"));
             _items.Add(new Item("Lowercase"));
             _items.Add(new Item("Replace"));
-
-            listBoxOderRule.DisplayMemberPath = "Name";
-            listBoxOderRule.ItemsSource = _items;
 
             listBoxOderRule.PreviewMouseMove += ListBox_PreviewMouseMove;
 
@@ -128,11 +134,20 @@ namespace ProjectBatchName
             listBoxOderRule.ItemContainerStyle = style;
         }
 
+        private void initDictRule()
+        {
+            dictRule.Add("AddCounter", 0);
+            dictRule.Add("AddSuffix", 0);
+            dictRule.Add("AddPrefix", 0);
+            dictRule.Add("ChangeExtension", 0);
+            dictRule.Add("PascalCase", 0);
+            dictRule.Add("Lowercase", 0);
+            dictRule.Add("Replace", 0);
+        }
+
         BindingList<TargetInfor> targets = new BindingList<TargetInfor>();
         List<Rule> actions = new List<Rule>();
         RuleFactory ruleFactory;
-        List<String> listFileName = new List<string>();
-        List<String> listFilePath = new List<string>();
 
         private void btnExit(object sender, RoutedEventArgs e)
         {
@@ -173,17 +188,15 @@ namespace ProjectBatchName
                         if (targets[i].toString() == target.toString())
                         {
                             targets.Remove(targets[i]);
+                            dataListViewCurrent.Items.Remove(targets[i]);
                         }
                     }
-                    listFileName.Add(target.name+"\n");
-                    listFilePath.Add(target.dir + "\n");
                     targets.Add(target);
                     Debug.WriteLine(target.toString());
                     dataListViewCurrent.Items.Add(target);
                 }
             }
 
-            autoSaveCurrent(listFileName, listFilePath, createPresetContent());
         }
         /// <summary>
         /// Add multiple folders to targets and Show in List
@@ -214,17 +227,15 @@ namespace ProjectBatchName
                         if (targets[i].toString() == target.toString())
                         {
                             targets.Remove(targets[i]);
+                            dataListViewCurrent.Items.Remove(targets[i]);
                         }
                     }
-                    listFileName.Add(target.name + "\n");
-                    listFilePath.Add(target.dir + "\n");
                     targets.Add(target);
                     Debug.WriteLine(target.toString());
                     dataListViewCurrent.Items.Add(target);
                 }
             }
 
-            autoSaveCurrent(listFileName, listFilePath, createPresetContent());
         }
 
         private void autoSaveCurrent(List<String> listFile,List<String> listPath, String listRule)
@@ -267,6 +278,24 @@ namespace ProjectBatchName
 
         private void window_loaded(object sender, RoutedEventArgs e)
         {
+            ruleFactory = new RuleFactory();
+                DirectoryInfo presetDir = new DirectoryInfo(@".\presets");
+                string[] allfiles = Directory.GetFileSystemEntries(@".\presets");
+
+                foreach (string sFileName in allfiles)
+                {
+                    //files
+                    if (Path.GetExtension(sFileName) != "")
+                    {
+                        cmbPreset.Items.Add(Path.GetFileName(sFileName.Split(".bin")[0]));
+                    }
+                }
+
+            readAutoSave();
+        }
+
+        private void readAutoSave()
+        {
             XmlDocument docXML = new XmlDocument();
             if (File.Exists(@"AutoSave.xml"))
             {
@@ -300,31 +329,15 @@ namespace ProjectBatchName
                         status = "",
                         name = lineFile[i],
                         dir = linePath[i],
+                        extension = Path.GetExtension(lineFile[i]),
                     };
-                    listFileName.Add(target.name + "\n");
-                    listFilePath.Add(target.dir + "\n");
+                    targets.Add(target);
                     dataListViewCurrent.Items.Add(target);
                 }
-                autoSaveCurrent(listFileName, listFilePath, rules.InnerText);
 
             }
-
-            ruleFactory = new RuleFactory();
-                DirectoryInfo presetDir = new DirectoryInfo(@".\presets");
-                string[] allfiles = Directory.GetFileSystemEntries(@".\presets");
-
-                foreach (string sFileName in allfiles)
-                {
-                    //files
-                    if (Path.GetExtension(sFileName) != "")
-                    {
-                        cmbPreset.Items.Add(Path.GetFileName(sFileName.Split(".bin")[0]));
-                    }
-                }
-
-                cmbPreset.SelectedValue = PresetHistore;
-
         }
+
         /// <summary>
         /// Add all files in Folder
         /// </summary>
@@ -361,10 +374,9 @@ namespace ProjectBatchName
                                     if (targets[i].toString() == target.toString())
                                     {
                                         targets.Remove(targets[i]);
+                                    dataListViewCurrent.Items.Remove(targets[i]);
                                     }
                                 }
-                                listFileName.Add(target.name + "\n");
-                                listFilePath.Add(target.dir + "\n");
                                 targets.Add(target);
                                 Debug.WriteLine(target.toString());
                                 dataListViewCurrent.Items.Add(target);
@@ -373,7 +385,6 @@ namespace ProjectBatchName
                 }
             }
 
-            autoSaveCurrent(listFileName, listFilePath, createPresetContent());
         }
         /// <summary>
         /// refresh all files and folders in CurrentNameList
@@ -403,7 +414,7 @@ namespace ProjectBatchName
         /// <param name="e"></param>
         private void BatchNameClick(object sender, RoutedEventArgs e)
         {
-            if (!setAction()) return;
+            if (!setAction(true)) return;
 
             for (int i = 0; i < targets.Count; i++)
             {
@@ -508,7 +519,7 @@ namespace ProjectBatchName
             return result;
         }
 
-        private bool handleAddCounterRule()
+        private bool handleAddCounterRule(bool flag)
         {
             string numString = NumberDigitCounter.Text;
             string startValueString = StartValueCounter.Text;
@@ -519,54 +530,72 @@ namespace ProjectBatchName
             }
             if (numString == null || startValueString == null || numString.Length == 0 || startValueString.Length == 0)
             {
-                MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
+                if (flag)
+                {
+                    MessageBox.Show("Add Counter: Start Value or Number Of Digits empty!!", "Warning");
+                }
                 return false;
             }
             if (!Regex.IsMatch(numString, @"^\d+$") || !Regex.IsMatch(stepString, @"^\d+$") || !Regex.IsMatch(startValueString, @"^\d+$"))
             {
-                MessageBox.Show("Add Counter: Start Value or Number Of Digits or Steps is not an integer!!", "Warning");
+                if (flag)
+                {
+                    MessageBox.Show("Add Counter: Start Value or Number Of Digits or Steps is not an integer!!", "Warning");
+                }
                 return false;
             }
             actions.Add(ruleFactory.createRule("AddCounter", new Argument_3 { arg1 = Int32.Parse(startValueString), arg2 = Int32.Parse(stepString), arg3 = Int32.Parse(numString) }));
             return true;
         }
 
-        private bool handleAddSuffixRule()
+        private bool handleAddSuffixRule(bool flag)
         {
             string _sufixText = sufixText.Text;
             if (_sufixText == null)
             {
-                MessageBox.Show("Suffix empty", "Warning");
+                if (flag)
+                {
+                    MessageBox.Show("Suffix empty", "Warning");
+                }
                 return false;
             }
             if (checkSpecialCharacter(_sufixText))
             {
-                MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                if (flag)
+                {
+                    MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                }
                 return false;
             }
             actions.Add(ruleFactory.createRule("AddSuffix", new Argument_1 { arg1 = _sufixText }));
             return true;
         }
 
-        private bool handleAddPrefixRule()
+        private bool handleAddPrefixRule(bool flag)
         {
             string _prefixText = prefixText.Text;
 
             if (_prefixText == null)
             {
-                MessageBox.Show("Suffix empty", "Warning");
+                if (flag)
+                {
+                    MessageBox.Show("Suffix empty", "Warning");
+                }
                 return false;
             }
             if (checkSpecialCharacter(_prefixText))
             {
-                MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                if (flag)
+                {
+                    MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                }
                 return false;
             }
             actions.Add(ruleFactory.createRule("AddPrefix", new Argument_1 { arg1 = _prefixText }));
             return true;
         }
 
-        private bool handleAddReplaceRule()
+        private bool handleAddReplaceRule(bool flag)
         {
             string _oldReplaceText = oldReplaceText.Text;
             string _newReplaceText = newReplaceText.Text;
@@ -578,25 +607,34 @@ namespace ProjectBatchName
             }
             if (checkSpecialCharacter(_newReplaceText))
             {
-                MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                if (flag)
+                {
+                    MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                }
                 return false;
             }
             actions.Add(ruleFactory.createRule("Replace", new Argument_2 { arg1 = _oldReplaceText, arg2 = _newReplaceText }));
             return true;
         }
 
-        private bool handleAddExtentionRule()
+        private bool handleAddExtentionRule(bool flag)
         {
             string _extentionText = extentionText.Text;
 
             if (_extentionText == null||_extentionText=="")
             {
-                MessageBox.Show("Extension is empty!!", "Warning");
+                if (flag)
+                {
+                    MessageBox.Show("Extension is empty!!", "Warning");
+                }
                 return false;
             }
             if (checkSpecialCharacter(_extentionText))
             {
-                MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                if (flag)
+                {
+                    MessageBox.Show("Is not contain < > ? * \" \\ : | / ", "Warning");
+                }
                 return false;
             }
             actions.Add(ruleFactory.createRule("ChangeExtension", new Argument_1 { arg1 = _extentionText }));
@@ -620,7 +658,7 @@ namespace ProjectBatchName
         /// <param name="e"></param>
         private void HandlePreview(object sender, RoutedEventArgs e)
         {
-            if (!setAction()) return;
+            if (!setAction(true)) return;
             for (int i = 0; i < targets.Count; i++)
             {
                 if (CheckTarget(targets[i]))
@@ -637,8 +675,7 @@ namespace ProjectBatchName
             }
 
         }
-
-        private bool setAction()
+        private bool setAction(bool flag)
         {
             if (actions.Count != 0)
             {
@@ -646,33 +683,33 @@ namespace ProjectBatchName
             }
             if (AddCounterBox.IsChecked == true)
             {
-                if (!handleAddCounterRule())
-                    return false;
+                if (!handleAddCounterRule(flag))
+                    if(flag) return false;
             }
             //Thêm hậu tố
             if (AddSuffix.IsChecked == true)
             {
-                if (!handleAddSuffixRule())
-                    return false;
+                if (!handleAddSuffixRule(flag))
+                    if (flag) return false;
             }
             //Thêm tiền tố
             if (AddPrefix.IsChecked == true)
             {
-                if (!handleAddPrefixRule())
-                    return false;
+                if (!handleAddPrefixRule(flag))
+                    if (flag) return false;
 
             }
             //replace
             if (AddReplace.IsChecked == true)
             {
-                if (!handleAddReplaceRule())
-                    return false;
+                if (!handleAddReplaceRule(flag))
+                    if (flag) return false;
             }
             //extention
             if (AddExtention.IsChecked == true)
             {
-                if (!handleAddExtentionRule())
-                    return false;
+                if (!handleAddExtentionRule(flag))
+                    if (flag) return false;
             }
             //Low Case & Remove Spaces
             if (LowCaseRemoveSpaces.IsChecked == true)
@@ -701,6 +738,8 @@ namespace ProjectBatchName
                 actions.Clear();
                 actions = orderedActions;
             }
+            
+            
             return true;
         }
 
@@ -774,7 +813,9 @@ namespace ProjectBatchName
         private string createPresetContent()
         {
             string presetContent = "";
-            if (!setAction()) { return presetContent; }
+           
+            if (!setAction(false)) { return presetContent; }
+            
             for (int i = 0; i < actions.Count; i++)
             {
                 presetContent += actions[i].GetName() + "|TRUE|" + actions[i].ArgumentString();
@@ -998,23 +1039,37 @@ namespace ProjectBatchName
             }
             catch (SecurityException ex)
             {
-                Console.WriteLine(ex);
+                Debug.WriteLine(ex);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Debug.WriteLine(ex);
             }
            
         }
+        System.Windows.Forms.Timer tmr;
         private void AutoSave(object sender, MouseEventArgs e)
         {
-
-            System.Windows.Forms.Timer tmr = new System.Windows.Forms.Timer();
-            tmr.Interval = 5000;
-
+            tmr = new System.Windows.Forms.Timer();
+            tmr.Interval = 10000;
             tmr.Start();
-            autoSaveCurrent(listFileName, listFilePath, createPresetContent());
+            tmr.Tick += tmr_Tick;
+
+        }
+        void tmr_Tick(object sender, EventArgs e)
+        {
             tmr.Stop();
+            List<string> listFileName = new List<string>();
+            List<string> listFilePath = new List<string>();
+            foreach (TargetInfor target in targets)
+            {
+                listFileName.Add(target.name+"\n");
+                listFilePath.Add(target.dir + "\n");
+            }
+            autoSaveCurrent(listFileName, listFilePath, createPresetContent());
+            Debug.WriteLine("finish");
+            Debug.WriteLine(actions.Count().ToString());
+
         }
     }
 }
