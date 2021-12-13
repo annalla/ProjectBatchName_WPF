@@ -1,0 +1,13 @@
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\obj\Debug\netcoreapp3.1\ReplaceRule.csproj.AssemblyReference.cache
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\obj\Debug\netcoreapp3.1\ReplaceRule.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\obj\Debug\netcoreapp3.1\ReplaceRule.AssemblyInfoInputs.cache
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\obj\Debug\netcoreapp3.1\ReplaceRule.AssemblyInfo.cs
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\obj\Debug\netcoreapp3.1\ReplaceRule.csproj.CoreCompileInputs.cache
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\bin\Debug\netcoreapp3.1\ReplaceRule.deps.json
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\bin\Debug\netcoreapp3.1\ReplaceRule.dll
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\bin\Debug\netcoreapp3.1\ReplaceRule.pdb
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\bin\Debug\netcoreapp3.1\BatchNameRule.dll
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\bin\Debug\netcoreapp3.1\BatchNameRule.pdb
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\obj\Debug\netcoreapp3.1\ReplaceRule.csproj.CopyComplete
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\obj\Debug\netcoreapp3.1\ReplaceRule.dll
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\ReplaceRule\obj\Debug\netcoreapp3.1\ReplaceRule.pdb

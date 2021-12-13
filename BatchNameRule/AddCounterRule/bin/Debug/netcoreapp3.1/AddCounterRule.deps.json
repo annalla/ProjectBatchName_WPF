@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "AddCounterRule/1.0.0": {
+        "dependencies": {
+          "BatchNameRule": "1.0.0"
+        },
+        "runtime": {
+          "AddCounterRule.dll": {}
+        }
+      },
+      "BatchNameRule/1.0.0": {
+        "runtime": {
+          "BatchNameRule.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AddCounterRule/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BatchNameRule/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

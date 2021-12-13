@@ -1,0 +1,13 @@
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\bin\Debug\netcoreapp3.1\AddCounterRule.deps.json
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\bin\Debug\netcoreapp3.1\AddCounterRule.dll
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\bin\Debug\netcoreapp3.1\AddCounterRule.pdb
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\bin\Debug\netcoreapp3.1\BatchNameRule.dll
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\bin\Debug\netcoreapp3.1\BatchNameRule.pdb
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\obj\Debug\netcoreapp3.1\AddCounterRule.csproj.AssemblyReference.cache
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\obj\Debug\netcoreapp3.1\AddCounterRule.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\obj\Debug\netcoreapp3.1\AddCounterRule.AssemblyInfoInputs.cache
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\obj\Debug\netcoreapp3.1\AddCounterRule.AssemblyInfo.cs
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\obj\Debug\netcoreapp3.1\AddCounterRule.csproj.CoreCompileInputs.cache
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\obj\Debug\netcoreapp3.1\AddCounterRule.csproj.CopyComplete
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\obj\Debug\netcoreapp3.1\AddCounterRule.dll
+C:\Users\USER\Downloads\Documents\win\BatchName\BatchNameRule\AddCounterRule\obj\Debug\netcoreapp3.1\AddCounterRule.pdb

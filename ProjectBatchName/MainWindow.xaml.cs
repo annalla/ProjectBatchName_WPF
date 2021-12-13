@@ -22,6 +22,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Security;
 using System.Xml;
+using BatchNameRule;
 //using System.Windows.Shapes;
 
 
@@ -63,13 +64,6 @@ namespace ProjectBatchName
         public MainWindow()
         {
             InitializeComponent();
-
-            initDictRule();
-
-            initListRuleOrder();
-
-            LoadHistorySizeAndSelectedPreset();
-            //Load current size + position + preset choose
            
         }
 
@@ -110,14 +104,7 @@ namespace ProjectBatchName
         }
 
         private void initListRuleOrder()
-        {
-            _items.Add(new Item("AddCounter"));
-            _items.Add(new Item("AddSuffix"));
-            _items.Add(new Item("AddPrefix"));
-            _items.Add(new Item("ChangeExtension"));
-            _items.Add(new Item("PascalCase"));
-            _items.Add(new Item("Lowercase"));
-            _items.Add(new Item("Replace"));
+        {           
 
             listBoxOderRule.PreviewMouseMove += ListBox_PreviewMouseMove;
 
@@ -136,15 +123,13 @@ namespace ProjectBatchName
             listBoxOderRule.ItemsSource = _items;
         }
 
-        private void initDictRule()
+        private void initDictRule(List<string> rules)
         {
-            dictRule.Add("AddCounter", 0);
-            dictRule.Add("AddSuffix", 0);
-            dictRule.Add("AddPrefix", 0);
-            dictRule.Add("ChangeExtension", 0);
-            dictRule.Add("PascalCase", 0);
-            dictRule.Add("Lowercase", 0);
-            dictRule.Add("Replace", 0);
+            foreach (string s in rules)
+            {
+                dictRule.Add(s,0);
+                _items.Add(new Item(s));
+            }
         }
 
         BindingList<TargetInfor> targets = new BindingList<TargetInfor>();
@@ -281,6 +266,23 @@ namespace ProjectBatchName
         private void window_loaded(object sender, RoutedEventArgs e)
         {
             ruleFactory = new RuleFactory();
+
+            List<string> rules = ruleFactory.getRules();
+
+            readPreset();
+
+            initDictRule(rules);
+
+            initListRuleOrder();
+
+            LoadHistorySizeAndSelectedPreset();
+            //Load current size + position + preset choose
+
+            readAutoSave();
+        }
+
+        private void readPreset()
+        {
             DirectoryInfo presetDir = new DirectoryInfo(@".\presets");
             try
             {
@@ -301,11 +303,10 @@ namespace ProjectBatchName
                     presetDir.Create();
                 }
             }
-             catch (Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine("The process failed: {0}", ex.ToString());
             }
-            readAutoSave();
         }
 
         private void readAutoSave()
@@ -1071,7 +1072,7 @@ namespace ProjectBatchName
         {
             //tuong tac sau 10s luu
             tmr = new System.Windows.Forms.Timer();
-            tmr.Interval = 10000;
+            tmr.Interval = 5000;
             tmr.Start();
             tmr.Tick += tmr_Tick;
 
