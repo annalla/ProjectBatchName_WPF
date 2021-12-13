@@ -20,6 +20,10 @@ namespace ProjectBatchName
             //Replacing oldRep into space newRep
             
             string str = Path.GetFileNameWithoutExtension(oldName);
+            if (oldRep == newRep)
+            {
+                return oldName;
+            }
             str = str.Replace(oldRep,newRep);
             string result = str + Path.GetExtension(oldName);
             if (result.Length <= 255)

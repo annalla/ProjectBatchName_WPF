@@ -67,10 +67,6 @@ namespace ProjectBatchName
             initDictRule();
 
             initListRuleOrder();
-          
-
-            listBoxOderRule.DisplayMemberPath = "Name";
-            listBoxOderRule.ItemsSource = _items;
 
             LoadHistorySizeAndSelectedPreset();
             //Load current size + position + preset choose
@@ -99,9 +95,13 @@ namespace ProjectBatchName
                     cmbPreset.SelectedValue = PresetHistore;
                     return;
                 }
+                else
+                {
+                    loadDir.Create();
+                    Debug.WriteLine("The directory was created successfully.");
+                }
                 // Try to create the directory.
-                loadDir.Create();
-                Debug.WriteLine("The directory was created successfully.");
+
             }
             catch (Exception ex)
             {
@@ -132,6 +132,8 @@ namespace ProjectBatchName
                         ListBoxItem.DropEvent,
                         new DragEventHandler(ListBoxItem_Drop)));
             listBoxOderRule.ItemContainerStyle = style;
+            listBoxOderRule.DisplayMemberPath = "Name";
+            listBoxOderRule.ItemsSource = _items;
         }
 
         private void initDictRule()
@@ -279,18 +281,30 @@ namespace ProjectBatchName
         private void window_loaded(object sender, RoutedEventArgs e)
         {
             ruleFactory = new RuleFactory();
-                DirectoryInfo presetDir = new DirectoryInfo(@".\presets");
-                string[] allfiles = Directory.GetFileSystemEntries(@".\presets");
-
-                foreach (string sFileName in allfiles)
+            DirectoryInfo presetDir = new DirectoryInfo(@".\presets");
+            try
+            {
+                if (presetDir.Exists)
                 {
-                    //files
-                    if (Path.GetExtension(sFileName) != "")
+                    string[] allfiles = Directory.GetFileSystemEntries(@".\presets");
+                    foreach (string sFileName in allfiles)
                     {
-                        cmbPreset.Items.Add(Path.GetFileName(sFileName.Split(".bin")[0]));
+                        //files
+                        if (Path.GetExtension(sFileName) != "")
+                        {
+                            cmbPreset.Items.Add(Path.GetFileName(sFileName.Split(".bin")[0]));
+                        }
                     }
                 }
-
+                else
+                {
+                    presetDir.Create();
+                }
+            }
+             catch (Exception ex)
+            {
+                Debug.WriteLine("The process failed: {0}", ex.ToString());
+            }
             readAutoSave();
         }
 
@@ -486,6 +500,11 @@ namespace ProjectBatchName
         {
             string directory = targets[i].dir;
             directory = directory.Remove(directory.Length - 1, 1);
+            DirectoryInfo dir = new DirectoryInfo(directory);
+            if (!dir.Exists)
+            {
+                return 0;
+            }
             string[] all;
             int result = 0;
             if (targets[i].extension=="")
@@ -1050,6 +1069,7 @@ namespace ProjectBatchName
         System.Windows.Forms.Timer tmr;
         private void AutoSave(object sender, MouseEventArgs e)
         {
+            //tuong tac sau 10s luu
             tmr = new System.Windows.Forms.Timer();
             tmr.Interval = 10000;
             tmr.Start();
@@ -1067,8 +1087,6 @@ namespace ProjectBatchName
                 listFilePath.Add(target.dir + "\n");
             }
             autoSaveCurrent(listFileName, listFilePath, createPresetContent());
-            Debug.WriteLine("finish");
-            Debug.WriteLine(actions.Count().ToString());
 
         }
     }
