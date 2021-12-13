@@ -169,11 +169,11 @@
                     <CheckBox Name="AddSuffix" IsChecked="False" FontWeight="SemiBold" Content="Adding a suffix"/>
                     <TextBox Name="sufixText" Width="135" Margin="30 0 0 0" Height="26"></TextBox>
                 </StackPanel>
-                <!--<CheckBox Margin="0 5 5 5" IsChecked="False" FontWeight="SemiBold">
+                <CheckBox Name="RemoveAllSpace" Margin="0 5 5 5" IsChecked="False" FontWeight="SemiBold">
                     <CheckBox.Content>
                         <TextBlock>Remove all space</TextBlock>
                     </CheckBox.Content>
-                </CheckBox>-->
+                </CheckBox>
 
             </StackPanel>
             <StackPanel Width="180">

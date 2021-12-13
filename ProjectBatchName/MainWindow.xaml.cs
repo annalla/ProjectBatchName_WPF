@@ -741,6 +741,10 @@ namespace ProjectBatchName
             {
                 handlePascalCaseRule();
             }
+            if (RemoveAllSpace.IsChecked == true)
+            {
+                handleRemoveAllSpace();
+            }
             List<Rule> orderedActions = new List<Rule>();
             for (int i = 0; i < _items.Count; i++)
             {
@@ -761,6 +765,11 @@ namespace ProjectBatchName
             
             
             return true;
+        }
+
+        private void handleRemoveAllSpace()
+        {
+            actions.Add(ruleFactory.createRule("RemoveAllSpace", new Arguments { }));
         }
 
         private bool CheckTarget(TargetInfor targetInfor)
@@ -952,6 +961,11 @@ namespace ProjectBatchName
                             PascalCase.IsChecked = true;
                         else
                             PascalCase.IsChecked = false; break;
+                    case "RemoveAllSpace":
+                        if (pieces[1] == "TRUE")
+                            RemoveAllSpace.IsChecked = true;
+                        else
+                            RemoveAllSpace.IsChecked = false; break;
                     default: break;
 
                 }
