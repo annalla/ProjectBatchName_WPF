@@ -10,5 +10,5 @@ Description: Application allows to rename files and folders, which based on 8 ru
   <li>Convert all characters to lowercase, remove all spaces</li>
   <li>Convert filename to PascalCase</li>
 </ol>
-![The best thing to hold onto in life is each other.!](/images/BatchNameProject.png "Project Batch Name")
+![Project Batch Name](https://github.com/annalla/ProjectBatchName_WPF/blob/master/images/BatchNameProject.png)
 
