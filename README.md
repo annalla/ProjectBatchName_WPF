@@ -11,3 +11,5 @@ Description: Application allows to rename files and folders, which based on 8 ru
   <li>Convert filename to PascalCase</li>
 </ol>
 ![alt text](https://ibb.co/Wn0YVnQ "User Interface")
+![alt text](https://i.imgur.com/QFB2CIk.png "User Interface")
+
