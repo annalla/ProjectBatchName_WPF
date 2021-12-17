@@ -1,9 +1,7 @@
 # ProjectBatchName_Window Application
 
 
-![alt text](https://ibb.co/Wn0YVnQ "User Interface")
-![alt text](https://i.imgur.com/QFB2CIk.png "User Interface")
-
+![alt text](https://i.ibb.co/H7Ckh70/Screenshot-322.png "User Interface")
 
 
 Description: Application allows to rename files and folders, which based on 8 rules:
