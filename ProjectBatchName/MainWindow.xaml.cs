@@ -828,16 +828,21 @@ namespace ProjectBatchName
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void savePreset(object sender, RoutedEventArgs e)
-        {   
+        {
+            string fileName = "";
+            if (txtPresets.Text != null  && txtPresets.Text.Length!=0)
+            {
+                fileName = txtPresets.Text + " - ";
+            }
             string timeNow = DateTime.Now.ToString("yyyy-MM-dd h_mm_ss tt");
             string presetContent = createPresetContent();
             if (presetContent == "")
             {
                 return;
             }
-            System.IO.File.WriteAllText(@".\presets\" + timeNow + ".bin", presetContent);
-            cmbPreset.Items.Add(timeNow);
-
+            System.IO.File.WriteAllText(@".\presets\" + fileName + timeNow + ".bin", presetContent);
+            cmbPreset.Items.Add(fileName  + timeNow);
+            txtPresets.Text = "";
         }
         private string createPresetContent()
         {
